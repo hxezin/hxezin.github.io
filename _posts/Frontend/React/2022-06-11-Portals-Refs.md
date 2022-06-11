@@ -1,6 +1,6 @@
 ---
 title: "[React 완벽 가이드] Portals & “Refs”"
-date: 2022-06-11 16:54:00 +/- 0900
+date: 2022-06-11 17:54:00 +/- 0900
 categories: [Frontend, React]
 tags: [react] # TAG는 반드시 소문자로 이루어져야함!
 ---
@@ -44,7 +44,7 @@ tags: [react] # TAG는 반드시 소문자로 이루어져야함!
 </body>
 ```
 
-- 가장 마지막에 렌더링되는 `public 폴더의 index.html 파일`에 <div id=””>를 추가해서 나중에 이 장소를 찾아오는 데 사용한다.
+- 마지막에 렌더링되는 `public 폴더의 index.html 파일`에 <div id=””>를 추가해서 나중에 이 장소를 찾아오는 데 사용한다.
 
 <br />
 
