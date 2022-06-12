@@ -1,14 +1,9 @@
 ---
-title: "[React 완벽 가이드] Portals & “Refs”"
+title: "Portals & Refs"
 date: 2022-06-11 17:54:00 +/- 0900
 categories: [Frontend, React]
 tags: [react] # TAG는 반드시 소문자로 이루어져야함!
 ---
-
-[React 완벽 가이드](https://www.udemy.com/course/best-react/learn/lecture/28517611#questions) <br />
-[https://www.udemy.com/course/best-react/learn/lecture/28517611#questions](https://www.udemy.com/course/best-react/learn/lecture/28517611#questions)
-
-<br /><br /><br /><br />
 
 # 리액트 포털
 
@@ -154,5 +149,7 @@ const addUserHandler = (event) => {
 # 참고
 
 ---
+
+[React 완벽 가이드 with Redux, Next.js, TypeScript](https://www.udemy.com/course/best-react/)
 
 [React: 제어 컴포넌트와 비제어 컴포넌트의 차이점](https://velog.io/@yukyung/React-%EC%A0%9C%EC%96%B4-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%99%80-%EB%B9%84%EC%A0%9C%EC%96%B4-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90-%ED%86%BA%EC%95%84%EB%B3%B4%EA%B8%B0)
