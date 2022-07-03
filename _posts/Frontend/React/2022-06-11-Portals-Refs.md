@@ -1,5 +1,5 @@
 ---
-title: "Portals & Refs"
+title: "Portals"
 date: 2022-06-11 17:54:00 +/- 0900
 categories: [Frontend, React]
 tags: [react] # TAG는 반드시 소문자로 이루어져야함!
@@ -97,59 +97,8 @@ const ErrorModal = (props) => {
 
 <br /><br /><br /><br />
 
-# ref로 작업하기
-
----
-
-- 참조(reference)의 줄임말로, 매우 강력한 도구다.
-- 다른 DOM 요소에 접근해서 그것들로 작업할 수 있게 해준다.
-
-<br />
-
-```js
-import React, { useRef } from "react";
-
-const AddUser = (props) => {
-  const nameInputRef = useRef();
-  const ageInputRef = useRef();
-
-	return(
-	...
-	<input id="username" type="text" ref={nameInputRef} />
-	<input id="age" type="number" ref={ageInputRef} />
-	...
-```
-
-- `ref={nameInputRef}`: nameInputRef에 저장된 값을 input 기반으로 렌더링된 네이티브 DOM 요소에 설정한다.
-- 여기서 생성되는 ref의 값은 항상 객체이며, current prop을 갖는다. `current` prop은 그 ref가 연결된 실제 값을 갖는다.
-- current에 저장된 값은 실제 DOM 노드고 여러가지 작업을 할 수 있으나, DOM은 리액트에 의해서만 조작되는 것이 좋다. 그러나 데이터를 읽는 것은 괜찮다.
-
-<br />
-
-```js
-const addUserHandler = (event) => {
-    event.preventDefault();
-    const enteredName = nameInputRef.current.value;
-    const enteredUserAge = ageInputRef.current.value;
-		...
-```
-
-- state를 사용하지 않아도 `current.value`를 사용해서 현재 입력값에 대한 정보를 가져올 수 있다.
-- DOM을 조작하기 위해 ref를 사용하는 것은 흔히 쓰이는 방법은 아니다. 값을 빠르게 읽고 싶을 때, 아무 것도 바꿀 계획이 없을 때 state보다 ref를 사용하는 것이 좋을 것 같다.
-
-<br /><br /><br /><br />
-
-# 제어되는 컴포넌트와 제어되지 않는 컴포넌트
-
-- 제어되는 컴포넌트: 사용자의 입력을 받는 컴포넌트에 event 객체를 이용해 `setState()`로 값을 저장하는 방식. React에 의해 값이 제어된다. 제어 컴포넌트는 사용자가 입력한 값과 저장되는 값이 실시간으로 동기화된다.
-- 제어되지 않는 컴포넌트: `ref`를 사용해서 값을 얻는다. 사용자가 직접 트리거하기 전까지는 리렌더링을 발생시키지도 않고, 값을 동기화 시키지도 않는다.
-
-<br /><br /><br /><br />
-
 # 참고
 
 ---
 
 [React 완벽 가이드 with Redux, Next.js, TypeScript](https://www.udemy.com/course/best-react/)
-
-[React: 제어 컴포넌트와 비제어 컴포넌트의 차이점](https://velog.io/@yukyung/React-%EC%A0%9C%EC%96%B4-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%99%80-%EB%B9%84%EC%A0%9C%EC%96%B4-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90-%ED%86%BA%EC%95%84%EB%B3%B4%EA%B8%B0)
