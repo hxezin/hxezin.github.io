@@ -22,9 +22,9 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: hxezin # the main title
+title: 이혜진 # the main title
 
-tagline: 🏃🏻‍♀️💨 # it will display as the sub-title
+tagline: Hello, world! # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive, and powerful Jekyll theme for presenting professional writing.
@@ -84,7 +84,7 @@ theme_mode: light # [light|dark]
 img_cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: "/assets/img/avatar.png"
+avatar: "/assets/img/avatar2.jpg"
 
 # boolean type, the global switch for ToC in posts.
 toc: true
