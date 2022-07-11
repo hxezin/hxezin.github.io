@@ -1,20 +1,18 @@
 ---
-title: "[Nomad Coders] Typescript로 블록체인 만들기 #4"
+title: "[Nomad Coders] #4 CLASSES AND INTERFACES"
 date: 2022-07-05 22:37:00 +/- 0900
 categories: [Frontend, TypeScript]
 tags: [typescript] # TAG는 반드시 소문자로 이루어져야함!
 ---
 
-# #4 CLASSES AND INTERFACES
+# 4.0 Classes
 
 ---
 
-## #4.0 Classes
+## class
 
-- `class`
-
-  - 파라미터를 써주기만 하면, 타입스크립트가 알아서 constructor 함수를 생성한다.
-  - 필드의 접근 제어자, 이름, 타입을 써주기만 하면 된다.
+- 파라미터를 써주기만 하면, 타입스크립트가 알아서 constructor 함수를 생성한다.
+- 필드의 접근 제어자, 이름, 타입을 써주기만 하면 된다.
 
   ```tsx
   class Player {
@@ -34,12 +32,12 @@ tags: [typescript] # TAG는 반드시 소문자로 이루어져야함!
   nico.nickname;
   ```
 
-<br />
+<br /><br />
 
-- `추상 클래스(Absctract class)`
+## 추상 클래스(Abstract class)
 
-  - 다른 클래스가 상속받을 수만 있는 클래스
-  - 직접 새로운 인스턴스를 만들 수는 없다.
+- 다른 클래스가 상속받을 수만 있는 클래스
+- 직접 새로운 인스턴스를 만들 수는 없다.
 
   ```tsx
   abstract class User{
@@ -58,13 +56,13 @@ tags: [typescript] # TAG는 반드시 소문자로 이루어져야함!
   const hyejin = new User("hyejin", "lee", "혜진") //---> X
   ```
 
-<br />
+<br /><br />
 
-- `추상 메소드`
+## 추상 메소드
 
-  - 추상 클래스를 상속받은 자식들이 구현해야하는 메소드
-  - 추상 메소드는 추상 클래스 안에서 만들 수 있으며,
-    메소드를 직접 구현해서는 안되고, **메소드의 call signature만 적는다.**
+- 추상 클래스를 상속받은 자식들이 구현해야하는 메소드
+- 추상 메소드는 추상 클래스 안에서 만들 수 있으며,
+  메소드를 직접 구현해서는 안되고, **메소드의 call signature만 적는다.**
 
   ```tsx
   abstract class User {
@@ -85,13 +83,13 @@ tags: [typescript] # TAG는 반드시 소문자로 이루어져야함!
   }
   ```
 
-  <br />
+<br /><br />
 
-- **접근 제어자**
+## 접근 제어자
 
-  - `public`: 기본값
-  - `protected`: 외부에서 접근할 수 없지만, 자식 클래스에서 접근할 수 있다.
-  - `private`: 인스턴스 밖에서 접근할 수 없고, 다른 자식 클래스에서도 접근할 수 없다.
+- `public`: 기본값
+- `protected`: 외부에서 접근할 수 없지만, 자식 클래스에서 접근할 수 있다.
+- `private`: 인스턴스 밖에서 접근할 수 없고, 다른 자식 클래스에서도 접근할 수 없다.
 
   ```tsx
   abstract class User {
@@ -121,11 +119,13 @@ tags: [typescript] # TAG는 반드시 소문자로 이루어져야함!
   hyejin.getFullName(); //---> X
   ```
 
-<br /><br />
+<br /><br /><br /><br />
 
-## #4.1 Recap
+# 4.1 Recap
 
-- 단어사전
+---
+
+- 단어 사전 구현
 
   ```tsx
   // Words 타입이 string만을 property로 가지는 객체라고 선언
@@ -164,7 +164,7 @@ tags: [typescript] # TAG는 반드시 소문자로 이루어져야함!
   dict.def("kimchi");
   ```
 
-  <br />
+<br />
 
 - 주로 다른 사람이 데이터를 덮어 씌우는 것을 방지하기 위해서 private나 protected 프로퍼티를 사용하는데, `public readonly`를 사용하면 데이터가 수정되는 것을 막을 수 있다.
 
@@ -181,62 +181,66 @@ tags: [typescript] # TAG는 반드시 소문자로 이루어져야함!
   kimchi.def = "xxx" //---> X
   ```
 
-<br />
+<br /><br />
 
-- `static`
+## static
 
-  - static은 자바스크립트에서 볼 수 있다.
+- static은 자바스크립트에서 볼 수 있다.
 
   ![img](/assets/img/blog/220705-%ED%83%80%EC%9E%85%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8.png)
 
+<br /><br /><br /><br />
+
+# 4.2 Interfaces
+
+---
+
+## type 사용
+
+```tsx
+// 1. alias type
+type Nickname = string;
+type Health = number;
+type Friends = Array<string>;
+
+// 2. 오브젝트 모양을 설정할 수 있다.
+type Player = {
+  nickname: Nickname;
+  healthBar: Health;
+};
+
+const hyejin: Player = {
+  nickname: "hyejin",
+  healthBar: 10,
+};
+
+// 3.변수 타입을 설정할 수 있다.
+type Food = string;
+
+const kimchi: Food = "delicious";
+
+// 타입에 concrete 타입의 특정 값을 지정할 수도 있다.
+type Team = "red" | "blue" | "yellow";
+type Health = 1 | 5 | 10;
+type Player = {
+  nickname: string;
+  team: Team;
+  health: Health;
+};
+
+const hyejin: Player = {
+  nickname: "hyejin",
+  team: "red",
+  // Health 타입은 1, 5, 10 중에서만 들어갈 수 있다.
+  health: 50, //---> X
+};
+```
+
 <br /><br />
 
-## #4.2 Interfaces
+## interface
 
-- type을 사용하는 방법
-
-  ```tsx
-  // 1. alias type
-  type Nickname = string;
-  type Health = number;
-  type Friends = Array<string>;
-
-  // 2. 오브젝트 모양을 설정할 수 있다.
-  type Player = {
-    nickname: Nickname;
-    healthBar: Health;
-  };
-
-  const hyejin: Player = {
-    nickname: "hyejin",
-    healthBar: 10,
-  };
-
-  // 3.변수 타입을 설정할 수 있다.
-  type Food = string;
-
-  const kimchi: Food = "delicious";
-
-  // 타입에 concrete 타입의 특정 값을 지정할 수도 있다.
-  type Team = "red" | "blue" | "yellow";
-  type Health = 1 | 5 | 10;
-  type Player = {
-    nickname: string;
-    team: Team;
-    health: Health;
-  };
-
-  const hyejin: Player = {
-    nickname: "hyejin",
-    team: "red",
-    // Health 타입은 1, 5, 10 중에서만 들어갈 수 있다.
-    health: 50, //---> X
-  };
-  ```
-
-<br />
-
-- `interface`: 오로지 **객체의 모양을 특정할 때**만 사용한다.
+- 오로지 **객체의 모양을 특정할 때**만 사용한다.
 
   ```tsx
   interface Hello = string //---> X
@@ -316,16 +320,20 @@ tags: [typescript] # TAG는 반드시 소문자로 이루어져야함!
   };
   ```
 
-<br /><br />
+<br /><br /><br /><br />
 
-## #4.3 Interfaces part Two
+# 4.3 Interfaces part Two
 
-- 추상 클래스와 interface
+---
 
-  - 추상 클래스는 다른 클래스에 표준화된 property와 메소드를 지정하기 위해서 사용한다.
-  - **추상 클래스는 자바스크립트에서 일반 클래스로 바뀌어버린다.** <br />
-    → 그래서 인터페이스를 사용해야 한다.
-    **인터페이스는 컴파일하면 자바스크립트로 바뀌지 않고 사라진다.**
+## 추상 클래스와 interface
+
+- 추상 클래스는 다른 클래스에 표준화된 property와 메소드를 지정하기 위해서 사용한다.
+- **추상 클래스는 자바스크립트에서 일반 클래스로 바뀌어버린다.**
+
+  → 그래서 인터페이스를 사용해야 한다.
+
+  **인터페이스는 컴파일하면 자바스크립트로 바뀌지 않고 사라진다.**
 
   ```tsx
   // 추상 클래스 Ver.
@@ -394,25 +402,26 @@ tags: [typescript] # TAG는 반드시 소문자로 이루어져야함!
   ```
 
   ![스크린샷 2022-07-05 오후 10.18.21.png](/assets/img/blog/220705-%ED%83%80%EC%9E%85%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B83.png)
+  <br />
   → 자바스크립트에서 인터페이스가 사라진다.
+
+<br /><br /><br /><br />
+
+# 4.4 Recap
+
+---
+
+- 추상 클래스를 사용하면 자바스크립트에서 일반적인 클래스로 바뀐다. <br />
+  → 파일 크기가 좀 더 커지고, 추가 클래스가 만들어진다. <br />
+  → 추상 클래스를 **다른 클래스들이 특정 모양을 따르도록 하기 위한 용도**로 사용한다면,
+  같은 역할을 하는 `인터페이스`를 사용하는 것이 더 좋다.
 
 <br /><br />
 
-## #4.4 Recap
+## 타입과 인터페이스
 
-- 추상 클래스를 사용하면 자바스크립트에서 일반적인 클래스로 바뀐다.
-
-  → 파일 크기가 좀 더 커지고, 추가 클래스가 만들어진다.
-
-  - 추상 클래스를 **다른 클래스들이 특정 모양을 따르도록 하기 위한 용도**로 사용한다면,
-    같은 역할을 하는 `인터페이스`를 사용하는 것이 더 좋다.
-
-<br />
-
-- 타입과 인터페이스
-
-  - 공통점: 객체 모양을 설정할 수 있다.
-  - 차이점: 상속하는 방법이 다르다.
+- 공통점: 객체 모양을 설정할 수 있다.
+- 차이점: 상속하는 방법이 다르다.
 
   ```tsx
   // 타입 Ver.
@@ -476,11 +485,13 @@ tags: [typescript] # TAG는 반드시 소문자로 이루어져야함!
   }
   ```
 
-  - **클래스나 오브젝트의 모양을 정의**하고 싶으면 인터페이스, 그 외 모든 경우에는 타입을 사용하자
+<br />
 
-<br /><br />
+- **클래스나 오브젝트의 모양을 정의**하고 싶으면 인터페이스, 그 외 모든 경우에는 타입을 사용하자
 
-## #4.5 Polymorphism
+<br /><br /><br /><br />
+
+# 4.5 Polymorphism
 
 - `다형성`을 이룰 수 있는 방법은 `제네릭`을 사용하는 것이다.
 
