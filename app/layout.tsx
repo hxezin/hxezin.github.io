@@ -1,4 +1,4 @@
-import MainNavigation from '@/app/components/MainNavigation';
+import MainNavigation from './home/MainNavigation';
 import './globals.css';
 import type { Metadata } from 'next';
 
@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang='en'>
       <body>
         <MainNavigation />
-        {children}
+        <main className='max-w-4xl mx-auto px-10'>{children}</main>
       </body>
     </html>
   );
