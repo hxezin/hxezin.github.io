@@ -1,4 +1,4 @@
-import MainNavigation from './home/MainNavigation';
+import MainNavigation from '@/_components/layout/MainNavigation';
 import './globals.css';
 import type { Metadata } from 'next';
 
