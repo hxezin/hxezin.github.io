@@ -1,4 +1,3 @@
-import Hero from '@/_components/Hero';
 import PostsGrid from '@/_components/post/PostsGrid';
 
 const DUMMY_POSTS = [
@@ -40,11 +39,15 @@ const DUMMY_POSTS = [
   },
 ];
 
-export default function Home() {
+function FeaturedPosts() {
   return (
-    <>
-      <Hero />
+    <section className='my-5'>
+      {/* <h3 className='text-fuchsia-700 text-lg'>
+        <span className='text-xl'>✨</span> Featured Posts
+      </h3> */}
       <PostsGrid posts={DUMMY_POSTS} />
-    </>
+    </section>
   );
 }
+
+export default FeaturedPosts;
