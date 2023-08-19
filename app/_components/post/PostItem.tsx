@@ -1,4 +1,5 @@
 import TagList from '@/_components/tag/TagList';
+import { formattedDate } from '@/_helpers/format';
 import { Post } from '@/_type/post';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,21 +11,15 @@ interface Props {
 function PostItem({ post }: Props) {
   const { title, image, excerpt, date, slug, keyword } = post;
 
-  const formattedDate = new Date(date).toLocaleDateString('ko-KR', {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
-  });
-
   const imagePath = `/images/posts/${slug}/${image}`;
-  const linkPath = `/posts/${slug}`;
+  const linkPath = `/blog/${slug}`;
 
   return (
     <li className='border-b'>
       <Link href={linkPath} className='flex gap-7 py-7'>
         <div className='flex flex-col md:w-full justify-center'>
           <div className='group'>
-            <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#F0ABFC]'>
+            <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#E879F9]'>
               {title}
             </h3>
             <p className='leading-5 line-clamp-2 text-zinc-600 mt-2 mb-4'>
@@ -32,7 +27,9 @@ function PostItem({ post }: Props) {
             </p>
           </div>
           <div className='flex items-center'>
-            <time className='text-sm text-zinc-400 mr-3'>{formattedDate}</time>
+            <time className='text-sm text-zinc-400 mr-3'>
+              {formattedDate(date)}
+            </time>
             <TagList tags={keyword} />
           </div>
         </div>

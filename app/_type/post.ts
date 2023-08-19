@@ -5,4 +5,5 @@ export interface Post {
   excerpt: string;
   date: string;
   keyword: string[];
+  content: string;
 }
