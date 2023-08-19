@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body>
+      <body suppressHydrationWarning={true}>
         <MainNavigation />
         <main className='max-w-4xl mx-auto px-10'>{children}</main>
       </body>
