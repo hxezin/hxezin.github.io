@@ -1,10 +1,14 @@
-import ReactMarkdown from 'react-markdown';
+'use client';
 import Image from 'next/image';
-
-import PostHeader from './PostHeader';
-import { Post } from '@/_type/post';
 import Link from 'next/link';
 
+import PostHeader from './PostHeader';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Post } from '@/_type/post';
+
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 interface Props {
   post: Post;
 }
@@ -34,18 +38,40 @@ function PostContent({ post }: Props) {
       return <p>{paragraph.children}</p>;
     },
     a({ ...props }) {
-      return <Link href={props.href}>{props.children}</Link>;
+      return (
+        <a href={props.href} target='_blank'>
+          {props.children}
+        </a>
+      );
+    },
+    code({ ...props }) {
+      const match = /language-(\w+)/.exec(props.className) as RegExpExecArray;
+      if (!match) {
+        return <code>{props.children}</code>;
+      }
+      return (
+        <SyntaxHighlighter
+          style={dracula}
+          language={match[1]}
+          PreTag='div'
+          {...props}
+        >
+          {String(props.children).replace(/\n$/, '')}
+        </SyntaxHighlighter>
+      );
     },
   };
 
   return (
     <article className='py-8'>
       <PostHeader keyword={post.keyword} title={post.title} date={post.date} />
-      <div>
-        <ReactMarkdown className='my-8' components={customRenderers}>
-          {post.content}
-        </ReactMarkdown>
-      </div>
+      <ReactMarkdown
+        components={customRenderers}
+        className='my-8 prose prose-pre:bg-[#282a36]'
+        remarkPlugins={[remarkGfm]}
+      >
+        {post.content}
+      </ReactMarkdown>
     </article>
   );
 }
