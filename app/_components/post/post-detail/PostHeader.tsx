@@ -1,6 +1,5 @@
 import TagList from '@/_components/tag/TagList';
 import { formattedDate } from '@/_helpers/format';
-import Image from 'next/image';
 
 interface Props {
   keyword: string[];

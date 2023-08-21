@@ -6,7 +6,6 @@ interface Props {
 }
 
 function PostsGrid({ posts }: Props) {
-  // console.log('grid: ', posts);
   return (
     <ul className='grid grid-cols-1 content-center'>
       {posts.map((post) => (
