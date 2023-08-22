@@ -1,19 +1,46 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+const navLinks = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Blog', href: '/blog' },
+];
 
 function MainNavigation() {
+  const pathname = usePathname();
+
   return (
-    <header className='w-full max-w-4xl h-20 flex justify-between items-center px-10 mx-auto'>
-      <Link href='/' className='mx-3 text-xl font-bold'>
-        이혜진 블로그
-      </Link>
+    <header className='w-full max-w-3xl h-16 flex items-center px-4 mx-auto'>
       <nav>
-        <ul className='flex align-baseline'>
-          <li className='mx-3 text-sm'>
-            <Link href='/blog'>Blog</Link>
-          </li>
-          <li className='mx-3 text-sm'>
-            <Link href='/about'>About</Link>
-          </li>
+        <ul className='flex gap-10 text-base'>
+          {navLinks.map((link) => {
+            let isActive = false;
+
+            if (
+              pathname === link.href ||
+              pathname.startsWith(`${link.href}/`)
+            ) {
+              isActive = true;
+            }
+
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={`hover:border-b-4 hover:border-purple-600 transition-color duration-200 pb-1 ${
+                    isActive
+                      ? 'border-b-4 border-purple-700 font-bold'
+                      : 'text-zinc-900'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
     </header>
