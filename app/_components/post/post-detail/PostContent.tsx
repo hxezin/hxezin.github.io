@@ -59,11 +59,11 @@ function PostContent({ post }: Props) {
         </SyntaxHighlighter>
       );
     },
-    h1({ ...props }) {
+    h2({ ...props }) {
       return (
-        <h1 className='mt-40 py-4 border-b border-zinc-900'>
+        <h2 className='mt-20 sm:mt-40 first:mt-0 py-4 border-b border-zinc-900'>
           {props.children}
-        </h1>
+        </h2>
       );
     },
   };
@@ -73,7 +73,7 @@ function PostContent({ post }: Props) {
       <PostHeader keyword={post.keyword} title={post.title} date={post.date} />
       <ReactMarkdown
         components={customRenderers}
-        className='my-8 prose prose-pre:bg-[#282a36]'
+        className='my-8 prose prose-pre:bg-[#282a36] sm:prose-lg'
         remarkPlugins={[remarkGfm]}
       >
         {post.content}
