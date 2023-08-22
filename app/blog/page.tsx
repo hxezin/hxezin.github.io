@@ -5,9 +5,9 @@ function Blog() {
   const posts = getAllPosts();
 
   return (
-    <>
+    <section>
       <PostsGrid posts={posts} />
-    </>
+    </section>
   );
 }
 
