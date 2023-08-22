@@ -1,7 +1,6 @@
 import TagList from '@/_components/tag/TagList';
 import { formattedDate } from '@/_helpers/format';
 import { Post } from '@/_type/post';
-import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
@@ -9,39 +8,26 @@ interface Props {
 }
 
 function PostItem({ post }: Props) {
-  const { title, image, excerpt, date, slug, keyword } = post;
+  const { title, description, date, slug, keyword } = post;
 
-  const imagePath = `/images/posts/${slug}/${image}`;
   const linkPath = `/blog/${slug}`;
 
   return (
     <li className='border-b'>
-      <Link href={linkPath} className='flex gap-7 py-7'>
-        <div className='flex flex-col md:w-full justify-center'>
-          <div className='group'>
-            <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#E879F9]'>
-              {title}
-            </h3>
-            <p className='leading-5 line-clamp-2 text-zinc-600 mt-2 mb-4'>
-              {excerpt}
-            </p>
-          </div>
-          <div className='flex items-center'>
-            <time className='text-sm text-zinc-400 mr-3'>
-              {formattedDate(date)}
-            </time>
-            <TagList tags={keyword} />
-          </div>
+      <Link href={linkPath} className='flex flex-col w-full gap-2 py-7'>
+        <div className='group'>
+          <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#d8b4fe]'>
+            {title}
+          </h3>
+          <p className='leading-6 line-clamp-2 text-zinc-600 mt-2 mb-4'>
+            {description}
+          </p>
         </div>
-        <div className='hidden md:flex md:w-1/3 md:h-28'>
-          <Image
-            src={imagePath}
-            alt={title}
-            width={200}
-            height={100}
-            className='w-full h-full object-cover'
-            priority
-          />
+        <div className='flex items-center'>
+          <time className='text-sm text-zinc-400 mr-3'>
+            {formattedDate(date)}
+          </time>
+          <TagList tags={keyword} />
         </div>
       </Link>
     </li>

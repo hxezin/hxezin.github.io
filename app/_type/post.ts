@@ -1,9 +1,11 @@
-export interface Post {
-  slug: string;
+export interface PostMatter {
   title: string;
-  image: string;
-  excerpt: string;
+  description: string;
   date: string;
   keyword: string[];
+}
+
+export interface Post extends PostMatter {
+  slug: string;
   content: string;
 }

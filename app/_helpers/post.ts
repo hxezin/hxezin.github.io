@@ -1,27 +1,34 @@
 import fs from 'fs';
 import path from 'path';
-
+import { sync } from 'glob';
 import matter from 'gray-matter';
 
-const postsDirectory = path.join(process.cwd(), 'posts');
+const POSTS_PATH = path.join(process.cwd(), 'posts');
 
 export function getPostFiles() {
-  return fs.readdirSync(postsDirectory);
+  const files = sync(`${POSTS_PATH}/**/*.md`);
+  return files.map((file) => {
+    const path = file.split('/');
+    return {
+      year: path.at(-2) || '',
+      slug: path.at(-1)!.replace(/\.md$/, '') || '',
+    };
+  });
 }
 
-export function getPostData(postIdentifier: string) {
-  const postSlug = postIdentifier.replace(/\.md$/, '');
+export function getPostData(year: string, slug: string) {
+  const postSlug = [year, slug].join('/');
 
-  const filePath = path.join(postsDirectory, `${postSlug}.md`);
+  const filePath = path.join(POSTS_PATH, `${postSlug}.md`);
   const fileContent = fs.readFileSync(filePath, 'utf-8');
+
   const { data, content } = matter(fileContent);
-  const { title, image, excerpt, date, keyword } = data;
+  const { title, description, date, keyword } = data;
 
   const postData = {
     slug: postSlug,
     title,
-    image,
-    excerpt,
+    description,
     date,
     keyword,
     content: content,
@@ -33,8 +40,10 @@ export function getPostData(postIdentifier: string) {
 export function getAllPosts() {
   const postFiles = getPostFiles();
 
-  const allPosts = postFiles.map((postFile) => {
-    return getPostData(postFile);
+  const allPosts = postFiles.map((file) => {
+    const { year, slug } = file;
+
+    return getPostData(year, slug);
   });
 
   const sortedPosts = allPosts.sort((postA, postB) =>

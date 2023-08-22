@@ -1,7 +1,6 @@
 'use client';
-import Image from 'next/image';
-import Link from 'next/link';
 
+import Image from 'next/image';
 import PostHeader from './PostHeader';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -22,13 +21,13 @@ function PostContent({ post }: Props) {
         const image = node.children[0];
 
         return (
-          <div className='my-4 mx-auto w-full max-w-xl'>
+          <div className='w-full'>
             <Image
               src={`/images/posts/${post.slug}/${image.properties.src}`}
               alt={image.properties.alt}
-              width={600}
-              height={300}
-              className='w-auto h-auto'
+              width={800}
+              height={500}
+              className='h-auto'
               priority
             />
           </div>
@@ -60,10 +59,17 @@ function PostContent({ post }: Props) {
         </SyntaxHighlighter>
       );
     },
+    h1({ ...props }) {
+      return (
+        <h1 className='mt-40 py-4 border-b border-zinc-900'>
+          {props.children}
+        </h1>
+      );
+    },
   };
 
   return (
-    <article className='py-8'>
+    <article>
       <PostHeader keyword={post.keyword} title={post.title} date={post.date} />
       <ReactMarkdown
         components={customRenderers}
