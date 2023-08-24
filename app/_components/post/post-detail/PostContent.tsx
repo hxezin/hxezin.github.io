@@ -41,7 +41,7 @@ function PostContent({ post }: Props) {
         <a
           href={props.href}
           target='_blank'
-          className='underline decoration-purple-600 underline-offset-4 decoration-1 hover:decoration-2'
+          className='text-violet-700 no-underline decoration-violet-600 underline-offset-4 decoration-1 hover:underline'
         >
           {props.children}
         </a>

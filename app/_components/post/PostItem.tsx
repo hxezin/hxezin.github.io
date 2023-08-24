@@ -16,7 +16,7 @@ function PostItem({ post }: Props) {
     <li className='border-b'>
       <Link href={linkPath} className='flex flex-col w-full gap-2 py-7'>
         <div className='group'>
-          <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#d8b4fe]'>
+          <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#ddd6fe]'>
             {title}
           </h3>
           <p className='leading-6 line-clamp-2 text-zinc-600 mt-2 mb-4'>
