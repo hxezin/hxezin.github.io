@@ -78,10 +78,7 @@ key는 리액트가 DOM 요소를 식별하는 데 사용하는 유일한 값입
 
 ## 참고자료
 
-[React 공식 문서 | 리스트와 Key](https://ko.reactjs.org/docs/lists-and-keys.html)
-
-[벨로퍼트와 함께하는 모던 리액트 | 배열 렌더링하기](https://react.vlpt.us/basic/11-render-array.html)
-
-[Index as a key is an anti-pattern](https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318)
-
-[리액트의 Key를 알아보자](https://tecoble.techcourse.co.kr/post/2021-04-25-react-key/)
+- [React 공식 문서 | 리스트와 Key](https://ko.reactjs.org/docs/lists-and-keys.html)
+- [벨로퍼트와 함께하는 모던 리액트 | 배열 렌더링하기](https://react.vlpt.us/basic/11-render-array.html)
+- [Index as a key is an anti-pattern](https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318)
+- [리액트의 Key를 알아보자](https://tecoble.techcourse.co.kr/post/2021-04-25-react-key/)

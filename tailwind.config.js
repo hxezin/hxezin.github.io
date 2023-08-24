@@ -4,6 +4,14 @@ module.exports = {
   content: ['./app/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            'code::before': { content: '' },
+            'code::after': { content: '' },
+          },
+        },
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

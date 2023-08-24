@@ -38,16 +38,26 @@ function PostContent({ post }: Props) {
     },
     a({ ...props }) {
       return (
-        <a href={props.href} target='_blank'>
+        <a
+          href={props.href}
+          target='_blank'
+          className='underline decoration-purple-600 underline-offset-4 decoration-1 hover:decoration-2'
+        >
           {props.children}
         </a>
       );
     },
     code({ ...props }) {
       const match = /language-(\w+)/.exec(props.className) as RegExpExecArray;
+
       if (!match) {
-        return <code>{props.children}</code>;
+        return (
+          <code className='px-1.5 py-1 mx-0.5 bg-[#f0f0f0] rounded-lg font-normal'>
+            {props.children}
+          </code>
+        );
       }
+
       return (
         <SyntaxHighlighter
           style={dracula}
@@ -73,7 +83,7 @@ function PostContent({ post }: Props) {
       <PostHeader keyword={post.keyword} title={post.title} date={post.date} />
       <ReactMarkdown
         components={customRenderers}
-        className='my-8 prose prose-pre:bg-[#282a36] sm:prose-lg'
+        className='my-8 prose prose-pre:bg-[#282a36] leading-8 max-w-3xl'
         remarkPlugins={[remarkGfm]}
       >
         {post.content}
