@@ -1,6 +1,7 @@
-import MainNavigation from '@/_components/layout/MainNavigation';
+import Header from '@/_components/layout/Header';
 import './globals.css';
 import type { Metadata } from 'next';
+import Footer from '@/_components/layout/Footer';
 
 export const metadata: Metadata = {
   title: '이혜진 블로그',
@@ -18,8 +19,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body suppressHydrationWarning={true}>
-        <MainNavigation />
-        <main className='max-w-3xl mx-auto px-4 py-16'>{children}</main>
+        <div className='wrapper h-auto min-h-full pb-28 max-w-3xl mx-auto px-4'>
+          <Header />
+          <main className='py-16'>{children}</main>
+        </div>
+        <Footer />
       </body>
     </html>
   );

@@ -9,11 +9,11 @@ const navLinks = [
   { name: 'Blog', href: '/blog' },
 ];
 
-function MainNavigation() {
+function Header() {
   const pathname = usePathname();
 
   return (
-    <header className='w-full max-w-3xl h-16 flex items-center px-4 mx-auto'>
+    <header className='w-full h-16 flex items-center'>
       <nav>
         <ul className='flex gap-10 text-base'>
           {navLinks.map((link) => {
@@ -30,9 +30,9 @@ function MainNavigation() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`hover:border-b-4 hover:border-purple-600 transition-color duration-200 pb-1 ${
+                  className={`hover:border-b-4 hover:border-violet-600 transition-color duration-200 pb-1 ${
                     isActive
-                      ? 'border-b-4 border-purple-700 font-bold'
+                      ? 'border-b-4 border-violet-700 font-bold'
                       : 'text-zinc-900'
                   }`}
                 >
@@ -47,4 +47,4 @@ function MainNavigation() {
   );
 }
 
-export default MainNavigation;
+export default Header;
