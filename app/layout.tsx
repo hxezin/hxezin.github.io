@@ -18,6 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
+      <head>
+        <meta
+          name='google-site-verification'
+          content='ajW_DDkVzItzz_bS6O3BI3DNJDcAj3NnAlwbfgAS3j4'
+        />
+      </head>
       <body suppressHydrationWarning={true}>
         <div className='wrapper h-auto min-h-full pb-28 max-w-3xl mx-auto px-4'>
           <Header />
