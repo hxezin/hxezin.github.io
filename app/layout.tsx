@@ -2,6 +2,8 @@ import Header from '@/_components/layout/Header';
 import './globals.css';
 import type { Metadata } from 'next';
 import Footer from '@/_components/layout/Footer';
+import GoogleAnalytics from '@/_components/GoogleAnalytics';
+import { isDev } from '@/_libs/core';
 
 export const metadata: Metadata = {
   title: '이혜진 블로그',
@@ -30,6 +32,7 @@ export default function RootLayout({
           <main className='py-16'>{children}</main>
         </div>
         <Footer />
+        {!isDev && <GoogleAnalytics />}
       </body>
     </html>
   );
