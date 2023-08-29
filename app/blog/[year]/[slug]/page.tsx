@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import PostContent from '@/_components/post/post-detail/PostContent';
 import { getPostData, getPostFiles } from '@/_helpers/post';
+import Comments from '@/_components/Comments';
 
 export const revalidate = 600;
 export async function generateStaticParams() {
@@ -45,6 +46,7 @@ function PostDetail({ params }: Props) {
   return (
     <section>
       <PostContent post={postData} />
+      <Comments />
     </section>
   );
 }

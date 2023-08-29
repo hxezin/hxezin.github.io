@@ -8,6 +8,7 @@ import { Post } from '@/_type/post';
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+
 interface Props {
   post: Post;
 }
@@ -83,7 +84,7 @@ function PostContent({ post }: Props) {
       <PostHeader keyword={post.keyword} title={post.title} date={post.date} />
       <ReactMarkdown
         components={customRenderers}
-        className='my-8 prose prose-pre:bg-[#282a36] leading-8 max-w-3xl'
+        className='my-20 prose prose-pre:bg-[#282a36] leading-8 max-w-3xl'
         remarkPlugins={[remarkGfm]}
       >
         {post.content}
