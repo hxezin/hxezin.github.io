@@ -89,8 +89,6 @@ keyword: ['Next.js']
 
 ## 참고자료
 
-[next.config.js Options: basePath](https://nextjs.org/docs/app/api-reference/next-config-js/basePath)
-
-[gregrickaby/nextjs-github-pages](https://github.com/gregrickaby/nextjs-github-pages#configure-github-repository)
-
-[How to deploy a Nextjs app to GitHub pages?](https://medium.com/frontendweb/how-to-deploy-a-nextjs-app-to-github-pages-1de4f6ed762e)
+- [next.config.js Options: basePath](https://nextjs.org/docs/app/api-reference/next-config-js/basePath)
+- [gregrickaby/nextjs-github-pages](https://github.com/gregrickaby/nextjs-github-pages#configure-github-repository)
+- [How to deploy a Nextjs app to GitHub pages?](https://medium.com/frontendweb/how-to-deploy-a-nextjs-app-to-github-pages-1de4f6ed762e)
