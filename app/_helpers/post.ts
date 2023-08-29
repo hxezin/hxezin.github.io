@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { sync } from 'glob';
 import matter from 'gray-matter';
+import { notFound } from 'next/navigation';
 
 const POSTS_PATH = path.join(process.cwd(), 'posts');
 
@@ -20,6 +21,11 @@ export function getPostData(year: string, slug: string) {
   const postSlug = [year, slug].join('/');
 
   const filePath = path.join(POSTS_PATH, `${postSlug}.md`);
+
+  if (!fs.existsSync(filePath)) {
+    notFound();
+  }
+
   const fileContent = fs.readFileSync(filePath, 'utf-8');
 
   const { data, content } = matter(fileContent);
