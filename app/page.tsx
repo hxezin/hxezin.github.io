@@ -1,4 +1,4 @@
-import Hero from '@/(home)/Hero';
+import Hero from '@/_components/Hero';
 import PostsGrid from '@/_components/post/PostsGrid';
 import { getAllPosts } from '@/_helpers/post';
 
