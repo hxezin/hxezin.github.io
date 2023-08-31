@@ -5,3 +5,7 @@ export function formattedDate(date: string) {
     year: 'numeric',
   });
 }
+
+export function createHeadingId(str: string) {
+  return str.toLowerCase().replace(/\s+/g, '-');
+}

@@ -12,7 +12,7 @@ function PostHeader({ keyword, title, date }: Props) {
     <header className='pb-8 my-4 border-b-2 flex flex-col gap-3'>
       <TagList tags={keyword} />
       <h1>{title}</h1>
-      <time className='text-sm text-zinc-400'>{formattedDate(date)}</time>
+      <time className='text-sm text-neutral-400'>{formattedDate(date)}</time>
     </header>
   );
 }

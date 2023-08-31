@@ -2,7 +2,7 @@ import Header from '@/_components/layout/Header';
 import './globals.css';
 import type { Metadata } from 'next';
 import Footer from '@/_components/layout/Footer';
-import AnalyticsProvider from '@/(home)/AnalyticsProvider';
+import AnalyticsProvider from '@/_components/AnalyticsProvider';
 
 export const metadata: Metadata = {
   title: '이혜진 블로그',
@@ -27,7 +27,7 @@ export default function RootLayout({
           />
         </head>
         <body suppressHydrationWarning={true}>
-          <div className='wrapper h-auto min-h-full pb-28 max-w-3xl mx-auto px-4'>
+          <div className='wrapper h-auto min-h-full pb-28 max-w-4xl mx-auto px-4'>
             <Header />
             <main className='py-16'>{children}</main>
           </div>

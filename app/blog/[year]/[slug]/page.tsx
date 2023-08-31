@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import PostContent from '@/_components/post/post-detail/PostContent';
 import { getPostData, getPostFiles } from '@/_helpers/post';
+import PostHeader from './PostHeader';
+import PostContent from './PostContent';
+import Toc from '@/_components/Toc';
 import Comments from '@/_components/Comments';
-
 export const revalidate = 600;
 export async function generateStaticParams() {
   const postFileNames = getPostFiles();
@@ -42,11 +43,16 @@ interface Props {
 function PostDetail({ params }: Props) {
   const { year, slug } = params;
   const postData = getPostData(year, slug);
+  const { slug: yearSlug, content, keyword, title, date } = postData;
 
   return (
-    <section>
-      <PostContent post={postData} />
-      <Comments />
+    <section className='w-full relative flex gap-10'>
+      <article>
+        <PostHeader keyword={keyword} title={title} date={date} />
+        <PostContent slug={yearSlug} content={content} />
+        <Comments />
+      </article>
+      <Toc />
     </section>
   );
 }

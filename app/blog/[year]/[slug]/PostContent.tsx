@@ -1,19 +1,19 @@
 'use client';
 
 import Image from 'next/image';
-import PostHeader from './PostHeader';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Post } from '@/_type/post';
 
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { stackoverflowLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { createHeadingId } from '@/_helpers/format';
 
 interface Props {
-  post: Post;
+  slug: string;
+  content: string;
 }
 
-function PostContent({ post }: Props) {
+function PostContent({ slug, content }: Props) {
   const customRenderers = {
     p(paragraph: any) {
       const { node } = paragraph;
@@ -24,7 +24,7 @@ function PostContent({ post }: Props) {
         return (
           <div className='w-full'>
             <Image
-              src={`/images/posts/${post.slug}/${image.properties.src}`}
+              src={`/images/posts/${slug}/${image.properties.src}`}
               alt={image.properties.alt}
               width={800}
               height={500}
@@ -42,7 +42,7 @@ function PostContent({ post }: Props) {
         <a
           href={props.href}
           target='_blank'
-          className='text-violet-700 no-underline decoration-violet-600 underline-offset-4 decoration-1 hover:underline'
+          className='text-indigo-400 no-underline decoration-indigo-500 underline-offset-4 decoration-1 hover:underline'
         >
           {props.children}
         </a>
@@ -61,7 +61,7 @@ function PostContent({ post }: Props) {
 
       return (
         <SyntaxHighlighter
-          style={dracula}
+          style={stackoverflowLight}
           language={match[1]}
           PreTag='div'
           {...props}
@@ -72,24 +72,31 @@ function PostContent({ post }: Props) {
     },
     h2({ ...props }) {
       return (
-        <h2 className='mt-20 sm:mt-40 first:mt-0 py-4 border-b border-zinc-900'>
+        <h2
+          id={createHeadingId(props.children[0])}
+          className='mt-20 sm:mt-40 first:mt-0 py-4 border-b border-neutral-900'
+        >
           {props.children}
         </h2>
+      );
+    },
+    h3({ ...props }) {
+      return (
+        <h3 className='mt-10' id={createHeadingId(props.children[0])}>
+          {props.children}
+        </h3>
       );
     },
   };
 
   return (
-    <article>
-      <PostHeader keyword={post.keyword} title={post.title} date={post.date} />
-      <ReactMarkdown
-        components={customRenderers}
-        className='my-20 prose prose-pre:bg-[#282a36] leading-8 max-w-3xl'
-        remarkPlugins={[remarkGfm]}
-      >
-        {post.content}
-      </ReactMarkdown>
-    </article>
+    <ReactMarkdown
+      components={customRenderers}
+      className='w-full my-10 prose prose-pre:bg-[#F6F6F6] leading-8 max-w-3xl lg:max-w-2xl'
+      remarkPlugins={[remarkGfm]}
+    >
+      {content}
+    </ReactMarkdown>
   );
 }
 
