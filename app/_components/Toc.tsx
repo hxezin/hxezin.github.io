@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 const observerOption = {
   threshold: 0,
-  rootMargin: '-200px 0px -50% 0px',
+  rootMargin: '-20% 0px -80% 0px',
 };
 
 function Toc() {
