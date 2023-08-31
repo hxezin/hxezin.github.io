@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { getPostData, getPostFiles } from '@/_helpers/post';
 import PostHeader from './PostHeader';
 import PostContent from './PostContent';
-import Toc from '@/_components/Toc';
-import Comments from '@/_components/Comments';
+import Comments from './Comments';
+import PageNavigation from './PageNavgiation';
 export const revalidate = 600;
 export async function generateStaticParams() {
   const postFileNames = getPostFiles();
@@ -52,7 +52,7 @@ function PostDetail({ params }: Props) {
         <PostContent slug={yearSlug} content={content} />
         <Comments />
       </article>
-      <Toc />
+      <PageNavigation />
     </section>
   );
 }

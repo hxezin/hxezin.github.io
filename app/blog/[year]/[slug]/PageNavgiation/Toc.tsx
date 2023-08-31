@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState } from 'react';
 
 const observerOption = {
@@ -51,7 +49,7 @@ function Toc() {
   };
 
   return (
-    <section className='hidden lg:block sticky top-0 self-start'>
+    <>
       <div className='text-neutral-950 mb-1 mt-10 text-sm font-medium'>
         On this page
       </div>
@@ -74,7 +72,7 @@ function Toc() {
           </li>
         ))}
       </ul>
-    </section>
+    </>
   );
 }
 
