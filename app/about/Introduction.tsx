@@ -1,7 +1,7 @@
 import { FiGithub, FiMail } from 'react-icons/fi';
 
 const contactClass =
-  'p-3 rounded-3xl hover:bg-zinc-100 text-xl transition-color duration-300';
+  'p-3 rounded-3xl hover:bg-neutral-100 text-xl transition-color duration-300';
 
 function Introduction() {
   return (
