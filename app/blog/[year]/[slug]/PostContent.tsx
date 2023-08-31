@@ -74,7 +74,7 @@ function PostContent({ slug, content }: Props) {
       return (
         <h2
           id={createHeadingId(props.children[0])}
-          className='mt-20 sm:mt-40 first:mt-0 py-4 border-b border-neutral-900'
+          className='mt-20 sm:mt-40 first:mt-0 pt-8 pb-4 border-b border-neutral-900'
         >
           {props.children}
         </h2>
@@ -82,7 +82,7 @@ function PostContent({ slug, content }: Props) {
     },
     h3({ ...props }) {
       return (
-        <h3 className='mt-10' id={createHeadingId(props.children[0])}>
+        <h3 className='mt-10 pt-8 pb-2' id={createHeadingId(props.children[0])}>
           {props.children}
         </h3>
       );
@@ -92,7 +92,7 @@ function PostContent({ slug, content }: Props) {
   return (
     <ReactMarkdown
       components={customRenderers}
-      className='w-full my-10 prose prose-pre:bg-[#F6F6F6] leading-8 max-w-3xl lg:max-w-2xl'
+      className='w-full my-20 prose prose-pre:bg-[#F6F6F6] leading-8 max-w-3xl lg:max-w-2xl'
       remarkPlugins={[remarkGfm]}
     >
       {content}

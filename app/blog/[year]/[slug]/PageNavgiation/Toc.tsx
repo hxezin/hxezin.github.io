@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const observerOption = {
   threshold: 0,
-  rootMargin: '-20% 0px -80% 0px',
+  rootMargin: '0px 0px -70% 0px',
 };
 
 function Toc() {
@@ -26,27 +26,12 @@ function Toc() {
       observer.observe(heading);
     });
 
-    const hash = window.location.hash;
-
-    if (hash) {
-      const decodedHash = decodeURIComponent(hash.substring(1));
-      const targetSection = document.getElementById(decodedHash);
-      if (targetSection) {
-        window.scrollTo({
-          top: targetSection.offsetTop,
-          behavior: 'smooth',
-        });
-
-        setTimeout(() => {
-          setCurrentId(decodedHash);
-        }, 500);
-      }
-    }
+    return () => {
+      headings.forEach((heading) => {
+        observer.unobserve(heading);
+      });
+    };
   }, []);
-
-  const handleLinkClick = (id: string) => {
-    setCurrentId(id);
-  };
 
   return (
     <>
@@ -65,7 +50,6 @@ function Toc() {
                   ? 'text-indigo-400'
                   : 'text-neutral-400'
               }`}
-              onClick={() => handleLinkClick(heading.id)}
             >
               {heading.textContent}
             </a>
