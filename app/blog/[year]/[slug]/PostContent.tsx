@@ -92,7 +92,7 @@ function PostContent({ slug, content }: Props) {
   return (
     <ReactMarkdown
       components={customRenderers}
-      className='w-full my-20 prose prose-pre:bg-[#F6F6F6] leading-8 max-w-3xl lg:max-w-2xl'
+      className='w-full my-20 prose prose-pre:bg-[#F6F6F6] leading-8 max-w-3xl md:max-w-2xl'
       remarkPlugins={[remarkGfm]}
     >
       {content}

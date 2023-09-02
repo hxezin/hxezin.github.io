@@ -46,7 +46,7 @@ function PostDetail({ params }: Props) {
   const { slug: yearSlug, content, keyword, title, date } = postData;
 
   return (
-    <section className='w-full relative flex gap-10'>
+    <section className='w-full relative md:flex gap-10'>
       <article>
         <PostHeader keyword={keyword} title={title} date={date} />
         <PostContent slug={yearSlug} content={content} />
