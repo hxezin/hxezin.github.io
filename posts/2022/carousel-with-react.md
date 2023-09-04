@@ -1,0 +1,150 @@
+---
+title: '리액트로 캐러셀(Carousel) 구현하기'
+description: 'JavaScript의 기하 프로퍼티를 활용하여 캐러셀 슬라이더를 구현합니다.'
+date: '2022-10-03'
+keyword: ['개발일지', 'React', 'JavaScript']
+---
+
+## 기하 프로퍼티
+
+자바스크립트는 요소의 너비나 높이 같은 기하 정보 관련 프로퍼티를 지원합니다. 이런 프로퍼티는 요소를 움직이거나 특정 좌표에 위치시킬 때 사용할 수 있습니다.
+
+### scrollLeft, scrollTop
+
+`scrollLeft`와 `scrollTop`은 가로 스크롤이 오른쪽, 세로 스크롤이 아래로 움직임에 따라 가려진 영역의 너비와 높이를 나타냅니다.
+
+- `scrollTop`: 세로 스크롤바에 의해 가려진 콘텐츠의 높이
+- `scrollLeft`: 가로 스크롤바에 의해 가려진 콘텐츠의 너비
+
+기하 프로퍼티 대부분은 읽기 전용이지만 `scrollLeft`와 `scrollTop`은 값을 변경할 수 있습니다.
+
+```js
+element.scrollTop = 0 // 스크롤바를 최상단으로 이동
+```
+
+### clientWidth, clientHeight
+
+`clientWidth`와 `clientHeight` 프로퍼티는 스크롤바 너비를 제외한 테두리 안 영역의 크기를 제공합니다.
+
+
+![](221003.png)
+
+- `clientWidth`: **테두리, 스크롤바 너비를 제외**한 현재 보이는 요소의 너비 값
+- `clientHeight`: **테두리, 스크롤바 너비를 제외**한 현재 보이는 요소의 높이 값
+
+### scrollWidth, scrollHeight
+
+`scrollWidth`와 `scrollHeight`는 `clientWidth`, `clientHeight`와 유사한데, 스크롤바에 의해 감춰진 영역도 포함한다는 점에서 차이가 있습니다.
+
+![](221003-2.png)
+
+- `scrollWidth`: **스크롤바에 의해 감춰진 영역을 포함**한 실제 요소의 너비 값
+- `scrollHeight`: **스크롤바에 의해 감춰진 영역을 포함**한 실제 요소의 높이 값
+
+## 캐러셀 구현하기
+
+위에 정리한 기하 프로퍼티를 활용하여 캐러셀 슬라이드를 구현했습니다. 먼저 컨테이너와 좌우 이동 버튼, 캐러셀에서 보여질 항목인 data 배열을 화면에 렌더링합니다.
+
+![](221003-3.png)
+
+```js
+const data = ["A", "B", "C", "D", "E", "F", "G"];
+
+function App() {
+  return (
+    <div className="container">
+      {data.map((item, index) => {
+        return (
+          <div key={index} className="item">
+            {item}
+          </div>
+        );
+		  })}
+    </div>
+    <div>
+      <button>왼쪽</button>
+      <button>오른쪽</button>
+    </div>
+  );
+}
+```
+
+`useRef` 훅을 사용하여 DOM 요소에 접근하기 위한 `slideRef` 변수를 생성합니다. 이 변수는 캐러셀 컨테이너를 참조하게 됩니다.
+
+```js
+import { useRef } from "react";
+
+...
+
+function App() {
+  const slideRef = useRef(null);
+
+  return (
+    <div className="container" ref={slideRef}>
+      ...
+    </div>
+  );
+}
+```
+
+기하 프로퍼티를 활용해 버튼 클릭 이벤트 핸들러를 정의합니다. 왼쪽 버튼을 클릭할 경우 스크롤이 왼쪽으로 움직여야합니다. 즉, 왼쪽에 가려진 콘텐츠의 너비가 줄어들어야 합니다. 저는 100px씩 줄어들게 했습니다.
+
+```js
+slideRef.current.scrollLeft -= 100;
+```
+
+또 현재 보이는 콘텐츠가 콘텐츠의 제일 처음(왼쪽)일 때, 왼쪽 버튼을 누르면 제일 마지막(오른쪽) 영역으로 넘어가도록 조건문을 작성합니다. `element.scrollWidth - element.currentWidth`는 스크롤바에 가려진 영역입니다. 이를 `element.scrollLeft`에 할당하면 가려졌던 오른쪽 너비만큼 왼쪽 너비가 가려지므로 제일 오른쪽 영역을 화면에 보여줄 수 있습니다.
+
+```js
+if (slideRef.current.scrollLeft === 0) {
+  slideRef.current.scrollLeft = slideRef.current.scrollWidth - slideRef.current.clientWidth;
+}
+```
+
+위와 같은 로직으로 이벤트 핸들러 함수를 작성합니다. 중복되는 `slideRef.current`는 변수에 할당해 좀 더 코드 가독성을 높였습니다.
+
+```js
+const handleLeftButton = () => {
+  const slider = slideRef.current;
+
+  if (slider.scrollLeft === 0) {
+    slider.scrollLeft = slider.scrollWidth - slider.clientWidth;
+    return;
+  }
+
+  slider.scrollLeft -= 100;
+}
+```
+
+반대로 오른쪽 버튼을 누를 경우 가려진 왼쪽 너비가 늘어나야 합니다. 또, 오른쪽 버튼은 왼쪽 버튼과는 반대로 제일 오른쪽 영역이 화면에 보일 경우 스크롤바를 제일 왼쪽으로 이동시켜야합니다.
+
+```js
+const handleRightButton = () => {
+  const slider = slideRef.current;
+
+  if (slider.scrollLeft === slider.scrollWidth - slider.clientWidth) {
+    slider.scrollLeft = 0;
+    return;
+  }
+  slider.scrollLeft += 100;
+}
+```
+
+마지막으로 컨테이너에 `width`와 `overflow-x`를 줬습니다.
+
+```css
+.container {
+  overflow-x: auto;
+  width: 300px;
+}
+```
+
+## ✨완성✨
+
+![](221003-4.gif)
+
+
+
+## 참고 자료
+
+- [요소 사이즈와 스크롤](https://ko.javascript.info/size-and-scroll)
