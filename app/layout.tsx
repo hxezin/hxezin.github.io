@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: '이혜진 블로그',
     description: '프론트엔드 이혜진 개발 블로그',
+    url: 'https://hxezin.github.io/',
+    siteName: '이혜진 블로그',
   },
   icons: {
     icon: '/icon.png',
