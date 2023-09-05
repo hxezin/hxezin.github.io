@@ -15,7 +15,7 @@ function Header() {
   return (
     <header className='w-full h-16 flex items-center'>
       <nav>
-        <ul className='flex gap-10 text-base'>
+        <ul className='flex gap-5 md:gap-10 text-base'>
           {navLinks.map((link) => {
             let isActive = false;
 

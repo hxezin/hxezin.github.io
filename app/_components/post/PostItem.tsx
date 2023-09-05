@@ -13,8 +13,8 @@ function PostItem({ post }: Props) {
   const linkPath = `/blog/${slug}`;
 
   return (
-    <li className='border-b'>
-      <Link href={linkPath} className='flex flex-col w-full gap-2 py-7'>
+    <li>
+      <Link href={linkPath} className='flex flex-col w-full gap-2'>
         <div className='group'>
           <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#fcd34d]'>
             {title}
