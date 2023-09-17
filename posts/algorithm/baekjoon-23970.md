@@ -1,0 +1,224 @@
+---
+title: '[백준/JavaScript] 23970 알고리즘 수업 - 버블 정렬 3'
+description: '버블 정렬 알고리즘을 공부하고 백준 알고리즘 수업 - 버블 정렬 3 문제를 JavaScript로 해결합니다.'
+date: '2023-09-15'
+keyword: ['algorithm', 'JavaScript']
+---
+
+## 문제 출처
+
+[[백준] 알고리즘 수업 - 버블 정렬 3](https://www.acmicpc.net/problem/23970)
+
+## 문제 설명
+
+### 문제
+
+오늘도 서준이는 버블 정렬 수업 조교를 하고 있다. 아빠가 수업한 내용을 학생들이 잘 이해했는지 문제를 통해서 확인해보자.
+
+*N*개의 서로 다른 양의 정수가 저장된 배열 A가 있다. 버블 정렬로 배열 A를 오름차순 정렬할 경우 정렬 과정에서 배열 A가 배열 B와 같은 경우가 발생하는지 확인해 보자. 초기 상태 배열 A도 정렬 과정에서 발생 가능한 경우로 생각하자.
+
+크기가 *N*인 배열에 대한 버블 정렬 의사 코드는 다음과 같다.
+
+```js
+bubble_sort(A[1..N]) { # A[1..N]을 오름차순 정렬한다.
+    for last <- N downto 2
+        for i <- 1 to last - 1
+            if (A[i] > A[i + 1]) then A[i] <-> A[i + 1]  # 원소 교환
+}
+```
+
+### 입력
+
+첫째 줄에 배열 A, B의 크기 *N*(5 ≤ *N* ≤ 10,000)이 주어진다.
+
+다음 줄에 서로 다른 배열 A의 원소 A1, A2, ..., AN이 주어진다. (1 ≤ Ai ≤ 109)
+
+다음 줄에 서로 다른 배열 B의 원소 B1, B2, ..., BN이 주어진다. (1 ≤ Bi ≤ 109)
+
+### 출력
+
+버블 정렬로 배열 A를 오름차순 정렬하는 과정에서 배열 A가 배열 B와 같은 경우가 발생하면 1, 아니면 0을 출력한다.
+
+## 버블 정렬
+
+![](230915.png)
+
+- 루프를 돌면서 가장 큰 항목을 다음 항목과 비교하여 `교환(swap)`합니다.
+- 버블 정렬을 `싱킹 정렬(sinking sort)`이라고도 하는데, 이 경우 가장 큰 값이 하단(왼쪽)으로 갑니다.
+- 반복을 거듭할수록 정렬해야 하는 항목의 수가 감소합니다.
+
+### 교환(swap)
+
+```jsx
+//ES5
+function swap(arr, idx1, idx2){
+	var temp = arr[idx1];
+	arr[idx1] = arr[idx2];
+	arr[idx2] = temp;
+}
+
+//ES6
+const swap = (arr, idx1, idx2) => {
+	[arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
+}
+```
+
+### 구현
+
+```jsx
+function bubbleSort(arr){
+	const swap = (idx1, idx2) => {
+		[arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
+	}
+	for(let i = arr.length; i > 0; i--){
+		for(let j = 0; j < i - 1; j++){
+			if(arr[j] > arr[j+1]){
+				swap(j, j + 1)
+			}
+		}
+	}
+	return arr;
+}
+```
+
+### 최적화
+
+데이터가 거의 정렬된 상태거나 이미 정렬이 완료되었을 때, 교환 작업을 최소화하여 불필요한 계산을 줄일 수 있습니다.
+
+```jsx
+function bubbleSort(arr){
+	let noSwaps;
+	for(let i = arr.length; i > 0; i--){
+		noSwaps = true;
+		for(let j = 0; j < i - 1; j++){
+			if(arr[j] > arr[j+1]){
+				const temp = arr[j];
+				arr[j] = arr[j+1];
+				arr[j+1] = temp;
+				noSwaps = false;
+			}
+		}
+		if(noSwaps) break;
+	}
+	return arr;
+}
+```
+
+1. `noSwaps` 라는 변수가 추가되었습니다. 이 변수는 현재 루프에서 어떤 원소도 교환되지 않았는지를 나타내는 플래그입니다.
+2. 바깥쪽 루프가 실행될 때마다 `noSwaps` 변수가 `true`로 초기화됩니다. 
+3. 교환이 발생할 때마다 `noSwaps` 변수가 `false`로 설정됩니다.
+4. 내부 루프가 완료된 후, `noSwaps` 변수를 검사하여 현재 루프에서 원소가 교환되지 않았다면, 배열이 이미 정렬되었다고 판단하고 더 이상의 루프를 수행하지 않습니다. 이로써 정렬이 완료된 배열에 대해서는 불필요한 루프를 줄일 수 있습니다.
+
+### Big O
+
+- 버블 정렬의 시간 복잡도는 평균 및 최악의 경우에 `O(n^2)`입니다.
+- 배열이 이미 정렬되어 있는 경우나 정렬이 거의 완료된 경우에는 교환 작업이 발생하지 않아도 되므로 최선의 경우에는 시간 복잡도가 `O(n)`이 됩니다.
+- 데이터가 거의 정렬된 상태거나 정렬된 상태에서 소량의 원소만 뒤섞여 있는 경우, 버블 정렬이 효율적일 수 있습니다. 그러나 큰 데이터셋 경우에는 다른 정렬 알고리즘이 선호됩니다.
+
+## 문제 풀이
+
+```jsx
+//시간 초과 코드
+function isSame(a, b) {
+	return a.every((el, idx) => el === b[idx]);
+}
+
+function solution() {
+  if (isSame(A, B)) return 1;
+
+  for (let i = A.length; i > 0; i--) {
+    let noswap = true;
+    for (let j = 0; j < i - 1; j++) {
+      if (A[j] > A[j + 1]) {
+        [A[j + 1], A[j]] = [A[j], A[j + 1]];
+        if (isSame(A, B)) return 1;
+        noswap = false;
+      }
+    }
+
+    if (noswap) {
+      break;
+    }
+  }
+
+  return 0;
+}
+
+const answer = solution();
+console.log(answer);
+```
+
+처음엔 쉽게 생각하고 문제에 접근했는데 계속 **시간 초과**가 떠서 굉장히 오래 잡고 있었던 문제입니다.
+
+```jsx
+//전
+function isSame(a, b) {
+	return a.every((el, idx) => el === b[idx]);
+}
+
+//후
+function isSame(a, b) {
+  for (let i = 0; i < N; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+```
+
+먼저 `isSame` 함수를 개선했습니다. `a.every((el, idx) => el === b[idx])`은 배열 `a`의 모든 원소를 비교하면서 검사하므로 `O(n)` 의 시간 복잡도를 갖습니다. 정렬 과정에서의 배열 변화를 추적하기 위해 여러 번 `isSame(A,B)`를 호출해야 하므로 이 비교 방식은 비효율적이라고 생각했습니다.
+
+그래서 `for` 루프를 활용해 불필요한 반복을 줄여 시간 초과 문제를 해결했습니다.
+
+```jsx
+//전
+if (isSame(A, B)) return 1;
+
+//후
+if (A[j] === B[j] && isSame(A, B)) return 1;
+```
+
+두번째로 스왑이 발생할 때 `A[j] === B[j]` 조건을 추가해 `A[j]`와 `B[j]`를 비교하여 동일한지 확인하도록 했습니다. 스왑 과정에서 불필요한 배열 비교를 줄여 시간 초과 문제를 해결했습니다. 
+
+```jsx
+const fs = require('fs');
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './input.txt';
+const input = fs.readFileSync(filePath).toString().trim().split('\n');
+
+const N = Number(input[0]);
+let A = input[1].split(' ').map(Number);
+let B = input[2].split(' ').map(Number);
+
+function isSame(a, b) {
+  for (let i = 0; i < N; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
+function solution() {
+  if (isSame(A, B)) return 1;
+
+  for (let i = A.length; i > 0; i--) {
+    let noswap = true;
+    for (let j = 0; j < i - 1; j++) {
+      if (A[j] > A[j + 1]) {
+        [A[j + 1], A[j]] = [A[j], A[j + 1]];
+        if (A[j] === B[j] && isSame(A, B)) return 1;
+        noswap = false;
+      }
+    }
+
+    if (noswap) {
+      break;
+    }
+  }
+
+  return 0;
+}
+
+const answer = solution();
+console.log(answer);
+```
+
+## 참고 자료
+[JavaScript 알고리즘 & 자료구조 마스터클래스](https://www.udemy.com/course/best-javascript-data-structures/)
