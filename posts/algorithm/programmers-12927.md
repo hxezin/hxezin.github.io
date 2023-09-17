@@ -1,6 +1,6 @@
 ---
 title: '[프로그래머스/JavaScript] 야근 지수'
-description: ''
+description: '프로그래머스 야근 지수 문제를 JavaScript로 해결합니다.'
 date: '2023-09-09'
 keyword: ['algorithm', 'JavaScript']
 ---
