@@ -2,12 +2,17 @@ import { getKeywordPosts } from '@/_helpers/post';
 import PostsGrid from '@/_components/post/PostsGrid';
 import { keywordMapping } from '@/_helpers/keyword';
 
+export async function generateStaticParams() {
+  const keywords = Object.keys(keywordMapping).map((keyword) => ({ keyword }));
+  return keywords;
+}
+
 interface Props {
   params: { keyword: string };
 }
 
 function KeywordDetail({ params }: Props) {
-  const keyword = params.keyword;
+  const { keyword } = params;
   const decodedKeyword = decodeURIComponent(keyword);
   const posts = getKeywordPosts(decodedKeyword);
 
