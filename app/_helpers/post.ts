@@ -3,6 +3,7 @@ import path from 'path';
 import { sync } from 'glob';
 import matter from 'gray-matter';
 import { notFound } from 'next/navigation';
+import readingTime from 'reading-time';
 
 const POSTS_PATH = path.join(process.cwd(), 'posts');
 
@@ -38,6 +39,7 @@ export function getPostData(year: string, slug: string) {
     date,
     keyword,
     content: content,
+    readingTime: Math.ceil(readingTime(content).minutes),
   };
 
   return postData;

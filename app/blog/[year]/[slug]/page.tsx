@@ -5,6 +5,18 @@ import PostContent from './PostContent';
 import Comments from './Comments';
 import PageNavigation from './PageNavgiation';
 
+export const revalidate = 600;
+export async function generateStaticParams() {
+  const postFileNames = getPostFiles();
+
+  const slugs = postFileNames.map(({ year, slug }) => ({
+    year,
+    slug,
+  }));
+
+  return slugs;
+}
+
 interface BlogMetadata {
   params: { year: string; slug: string };
 }
@@ -32,12 +44,24 @@ interface Props {
 function PostDetail({ params }: Props) {
   const { year, slug } = params;
   const postData = getPostData(year, slug);
-  const { slug: yearSlug, content, keyword, title, date } = postData;
+  const {
+    slug: yearSlug,
+    content,
+    keyword,
+    title,
+    date,
+    readingTime,
+  } = postData;
 
   return (
     <section className='w-full relative md:flex gap-10'>
       <article>
-        <PostHeader keyword={keyword} title={title} date={date} />
+        <PostHeader
+          keyword={keyword}
+          title={title}
+          date={date}
+          readingTime={readingTime}
+        />
         <PostContent slug={yearSlug} content={content} />
         <Comments />
       </article>

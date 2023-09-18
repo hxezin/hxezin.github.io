@@ -8,4 +8,5 @@ export interface PostMatter {
 export interface Post extends PostMatter {
   slug: string;
   content: string;
+  readingTime: number;
 }

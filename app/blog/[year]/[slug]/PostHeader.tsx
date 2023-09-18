@@ -1,22 +1,28 @@
 import KeywordList from '@/_components/keyword/KeywordList';
 import { formattedDate } from '@/_helpers/format';
-import { AiOutlineCalendar } from 'react-icons/ai';
+import { AiOutlineCalendar, AiOutlineFieldTime } from 'react-icons/ai';
 
 interface Props {
   keyword: string[];
   title: string;
   date: string;
+  readingTime: number;
 }
 
-function PostHeader({ keyword, title, date }: Props) {
+function PostHeader({ keyword, title, date, readingTime }: Props) {
   return (
-    <header className='pb-8 my-4 border-b-2 flex flex-col gap-3'>
-      <KeywordList keywords={keyword} />
+    <header className='pb-6 border-b-2 flex flex-col gap-3'>
       <h1>{title}</h1>
-      <time className='flex items-center gap-1 text-sm text-neutral-400'>
-        <AiOutlineCalendar className='text-base' />
-        {formattedDate(date)}
-      </time>
+      <div className='flex items-center text-neutral-400 text-sm'>
+        <time className='flex items-center gap-1'>
+          <AiOutlineCalendar className='text-base' /> {formattedDate(date)}
+        </time>
+        <span className='px-2'>·</span>
+        <div className='flex items-center gap-1'>
+          <AiOutlineFieldTime className='text-base' /> {readingTime} min read
+        </div>
+      </div>
+      <KeywordList keywords={keyword} />
     </header>
   );
 }
