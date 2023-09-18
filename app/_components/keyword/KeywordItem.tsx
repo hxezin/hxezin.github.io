@@ -11,7 +11,7 @@ function KeywordItem({ tag }: Props) {
     <li>
       <Link
         href={linkPath}
-        className='border px-1 py-0.5 rounded-xl text-xs text-neutral-700 bg-neutral-200'
+        className='border px-2 py-0.5 rounded-xl text-xs text-neutral-700 border-neutral-400 bg-neutral-100 hover:bg-amber-300'
       >
         {tag}
       </Link>
