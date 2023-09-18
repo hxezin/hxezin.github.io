@@ -2,7 +2,7 @@
 title: 'CSR / SSR with Next.js'
 description: 'CSR과 SSR의 개념과, Next.js 프로젝트의 npm run start 스크립트 실행 과정을 알아봅니다.'
 date: '2023-06-29'
-keyword: ['Next.js']
+keyword: ['nextjs']
 ---
 
 ## CSR이란 무엇인가?

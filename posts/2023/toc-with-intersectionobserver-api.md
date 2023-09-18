@@ -2,7 +2,7 @@
 title: 'IntersectionObserver로 TOC 구현하기'
 description: 'IntersectionObserver API를 사용하여 목차(TOC)를 구현합니다.'
 date: '2023-08-31'
-keyword: ['개발일지', 'JavaScript']
+keyword: ['개발일지', 'javascript']
 ---
 
 TOC란 Table of Contents의 약어로, 문서나 콘텐츠의 목차를 나타내는 용어입니다. 블로그에 목차를 추가하면 블로깅한 내용을 시각화하여 사용자가 원하는 내용을 더 쉽게 찾을 수 있도록 도와주고, 사용자 경험을 향상할 수 있을 것 같아 `IntersectionObserver API`를 사용하여 목차를 구현했습니다.

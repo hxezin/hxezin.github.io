@@ -2,7 +2,7 @@
 title: 'Next.js 13 앱 Github Pages에 배포하기'
 description: 'static exports를 위한 Next.js 설정과 자동 배포를 위한 Github 설정에 대해 알아봅니다.'
 date: '2023-08-23'
-keyword: ['Next.js']
+keyword: ['nextjs']
 ---
 
 프로젝트를 Github Pages에 배포하는 것은 할 때마다 새로운 것 같습니다.🥲 최근 Next.js App router 기반의 블로그를 Github Pages에 배포하기 위해 많은 글을 찾아봤는데, Next.js의 이전 버전 글들이 많아 배포 과정에서 애를 먹었습니다. (예를 들어 **Next.js v13.3.0** 이후 `next export`는 더 이상 사용되지 않으며, `output: 'export'`로 대체됐습니다.)
