@@ -4,17 +4,6 @@ import PostHeader from './PostHeader';
 import PostContent from './PostContent';
 import Comments from './Comments';
 import PageNavigation from './PageNavgiation';
-export const revalidate = 600;
-export async function generateStaticParams() {
-  const postFileNames = getPostFiles();
-
-  const slugs = postFileNames.map(({ year, slug }) => ({
-    year,
-    slug,
-  }));
-
-  return slugs;
-}
 
 interface BlogMetadata {
   params: { year: string; slug: string };
