@@ -15,7 +15,7 @@ function PostItem({ post }: Props) {
 
   return (
     <li>
-      <TagList tags={keyword} />
+      <TagList keywords={keyword} />
       <Link href={linkPath} className='group'>
         <div className='my-4'>
           <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#fcd34d]'>

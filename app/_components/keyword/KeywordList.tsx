@@ -1,14 +1,14 @@
 import KeywordItem from '@/_components/keyword/KeywordItem';
 
 interface Props {
-  tags: string[];
+  keywords: string[];
 }
 
-function KeywordList({ tags }: Props) {
+function KeywordList({ keywords }: Props) {
   return (
     <ul className='flex gap-2'>
-      {tags.map((tag) => (
-        <KeywordItem key={tag} tag={tag} />
+      {keywords.map((keyword) => (
+        <KeywordItem key={keyword} keyword={keyword} />
       ))}
     </ul>
   );

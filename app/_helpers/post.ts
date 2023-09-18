@@ -60,6 +60,7 @@ export function getAllPosts() {
 }
 
 export function getKeywordPosts(keyword: string) {
+  const keywordLower = keyword.toLowerCase();
   const posts = getAllPosts();
-  return posts.filter((post) => post.keyword.includes(keyword));
+  return posts.filter((post) => post.keyword.includes(keywordLower));
 }
