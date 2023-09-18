@@ -58,3 +58,8 @@ export function getAllPosts() {
 
   return sortedPosts;
 }
+
+export function getKeywordPosts(keyword: string) {
+  const posts = getAllPosts();
+  return posts.filter((post) => post.keyword.includes(keyword));
+}

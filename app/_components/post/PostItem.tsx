@@ -1,4 +1,4 @@
-import TagList from '@/_components/tag/TagList';
+import TagList from '@/_components/keyword/KeywordList';
 import { formattedDate } from '@/_helpers/format';
 import { Post } from '@/_type/post';
 import Link from 'next/link';
@@ -14,7 +14,7 @@ function PostItem({ post }: Props) {
 
   return (
     <li>
-      <Link href={linkPath} className='flex flex-col w-full gap-2'>
+      <Link href={linkPath}>
         <div className='group'>
           <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#fcd34d]'>
             {title}
@@ -23,13 +23,13 @@ function PostItem({ post }: Props) {
             {description}
           </p>
         </div>
-        <div className='flex items-center'>
-          <time className='text-sm text-neutral-400 mr-3'>
-            {formattedDate(date)}
-          </time>
-          <TagList tags={keyword} />
-        </div>
       </Link>
+      <div className='flex items-center'>
+        <time className='text-sm text-neutral-400 mr-3'>
+          {formattedDate(date)}
+        </time>
+        <TagList tags={keyword} />
+      </div>
     </li>
   );
 }
