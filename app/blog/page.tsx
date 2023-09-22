@@ -1,14 +1,12 @@
-import PostsGrid from '@/_components/blog/PostsGrid';
 import { getAllPosts } from '@/_helpers/post';
-import BlogHeader from '@/blog/BlogHeader';
+import FilteredPosts from '@/blog/FilteredPosts';
 
 function Blog() {
   const posts = getAllPosts();
 
   return (
     <section>
-      <BlogHeader currentCategory='All' postCount={posts.length} />
-      <PostsGrid posts={posts} />
+      <FilteredPosts posts={posts} />
     </section>
   );
 }

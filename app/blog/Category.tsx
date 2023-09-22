@@ -1,35 +1,25 @@
-'use client';
 import { CATEGORY } from '@/_helpers/category';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
-function Category() {
-  const pathname = usePathname();
+interface Props {
+  currentCategory: string;
+  onClick: (category: string) => void;
+}
 
+function Category({ currentCategory, onClick }: Props) {
   return (
-    <ul className='flex gap-3'>
+    <ul className='flex gap-3 justify-center items-center py-8'>
       {CATEGORY.map((category) => {
-        let isAll = category === 'All';
-        let isActive = false;
-
-        const encodedCategory = encodeURIComponent(category);
-        if (
-          pathname === `/blog/category/${encodedCategory}` ||
-          (isAll && pathname === '/blog')
-        ) {
-          isActive = true;
-        }
+        let isActive = category === currentCategory;
 
         return (
-          <li key={category}>
-            <Link
-              href={isAll ? `/blog` : `/blog/category/${category}`}
-              className={`px-2 py-0.5 rounded hover:bg-neutral-100 ${
-                isActive ? 'text-neutral-900 font-semibold' : 'text-neutral-400'
-              }`}
-            >
-              {category}
-            </Link>
+          <li
+            key={category}
+            className={`px-2 py-0.5 rounded hover:bg-neutral-100 cursor-pointer ${
+              isActive ? 'text-neutral-900 font-semibold' : 'text-neutral-400'
+            }`}
+            onClick={() => onClick(category)}
+          >
+            {category}
           </li>
         );
       })}
