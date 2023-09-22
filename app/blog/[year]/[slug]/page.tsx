@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import { getPostData, getPostFiles } from '@/_helpers/post';
-import PostHeader from './PostHeader';
-import PostContent from './PostContent';
-import Comments from './Comments';
-import PageNavigation from './PageNavgiation';
+import PostHeader from '@/_components/blog/PostHeader';
+import PostContent from '@/_components/blog/PostContent';
+import Comments from '@/_components/blog/Comments';
+import PageNavigation from '@/_components/blog/PageNavgiation';
 
 export const revalidate = 600;
 export async function generateStaticParams() {

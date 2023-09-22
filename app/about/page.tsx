@@ -1,4 +1,4 @@
-import Introduction from '@/about/Introduction';
+import Introduction from '@/_components/about/Introduction';
 
 function Blog() {
   return (

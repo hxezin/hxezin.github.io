@@ -2,13 +2,13 @@
 import { Post } from '@/_type/post';
 import { useState } from 'react';
 import PostsGrid from '@/_components/blog/PostsGrid';
-import Category from '@/blog/Category';
+import Category from '@/_components/blog/FilteredPosts/Category';
 
 interface Props {
   posts: Post[];
 }
 
-function CategoryList({ posts }: Props) {
+function FilteredPosts({ posts }: Props) {
   const [currentCategory, setCurrentCategory] = useState('All');
   const decodedCategory = decodeURIComponent(currentCategory);
 
@@ -38,4 +38,4 @@ function CategoryList({ posts }: Props) {
   );
 }
 
-export default CategoryList;
+export default FilteredPosts;
