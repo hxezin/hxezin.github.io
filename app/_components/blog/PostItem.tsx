@@ -1,4 +1,3 @@
-import TagList from '@/_components/tag/TagList';
 import { formattedDate } from '@/_helpers/format';
 import { Post } from '@/_type/post';
 import Link from 'next/link';
@@ -9,25 +8,24 @@ interface Props {
 }
 
 function PostItem({ post }: Props) {
-  const { title, description, date, slug, tags, readingTime } = post;
+  const { title, description, date, slug, readingTime } = post;
 
   const linkPath = `/blog/${slug}`;
 
   return (
     <li>
-      <TagList tags={tags} />
       <Link href={linkPath} className='group'>
-        <h3 className='font-semibold w-fit group-hover:shadow-[inset_0_-12px_0_#fcd34d] mt-4'>
+        <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#fcd34d]'>
           {title}
         </h3>
-        <p className='leading-6 line-clamp-2 text-neutral-500 text-sm mt-2 mb-4'>
+        <p className='leading-6 line-clamp-2 text-neutral-500 text-sm my-2'>
           {description}
         </p>
         <div className='flex items-center text-neutral-400 text-sm'>
           <time className='flex items-center gap-1'>
             <AiOutlineCalendar className='text-base' /> {formattedDate(date)}
           </time>
-          <span className='px-2'>·</span>
+          <span className='px-1.5 text-neutral-200'>·</span>
           <div className='flex items-center gap-1'>
             <AiOutlineFieldTime className='text-base' /> {readingTime} min read
           </div>

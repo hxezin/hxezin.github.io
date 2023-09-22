@@ -61,3 +61,8 @@ export function getAllPosts() {
 
   return sortedPosts;
 }
+
+export function getCategoryPosts(category: string) {
+  const allPosts = getAllPosts();
+  return allPosts.filter((post) => post.category === category);
+}
