@@ -1,4 +1,4 @@
-import TagList from '@/_components/keyword/KeywordList';
+import TagList from '@/_components/tag/TagList';
 import { formattedDate } from '@/_helpers/format';
 import { Post } from '@/_type/post';
 import Link from 'next/link';
@@ -9,13 +9,13 @@ interface Props {
 }
 
 function PostItem({ post }: Props) {
-  const { title, description, date, slug, keyword, readingTime } = post;
+  const { title, description, date, slug, tags, readingTime } = post;
 
   const linkPath = `/blog/${slug}`;
 
   return (
     <li>
-      <TagList keywords={keyword} />
+      <TagList tags={tags} />
       <Link href={linkPath} className='group'>
         <h3 className='font-semibold w-fit group-hover:shadow-[inset_0_-12px_0_#fcd34d] mt-4'>
           {title}

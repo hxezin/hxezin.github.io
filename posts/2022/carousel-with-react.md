@@ -2,7 +2,8 @@
 title: '리액트로 캐러셀(Carousel) 구현하기'
 description: 'JavaScript의 기하 프로퍼티를 활용하여 캐러셀 슬라이더를 구현합니다.'
 date: '2022-10-03'
-keyword: ['개발일지', 'react', 'javascript']
+category: '개발'
+tags: ['React', 'JavaScript']
 ---
 
 ## 기하 프로퍼티

@@ -2,7 +2,8 @@ export interface PostMatter {
   title: string;
   description: string;
   date: string;
-  keyword: string[];
+  category: string;
+  tags: string[];
 }
 
 export interface Post extends PostMatter {

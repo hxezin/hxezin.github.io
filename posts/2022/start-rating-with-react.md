@@ -2,7 +2,8 @@
 title: '리액트로 별점 기능 구현하기'
 description: 'React를 사용하여 별점 기능을 구현합니다.'
 date: '2022-10-05'
-keyword: ['개발일지', 'react']
+category: '개발'
+tags: ['React']
 ---
 
 ## 요구사항

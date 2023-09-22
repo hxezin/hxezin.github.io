@@ -30,14 +30,15 @@ export function getPostData(year: string, slug: string) {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
 
   const { data, content } = matter(fileContent);
-  const { title, description, date, keyword } = data;
+  const { title, description, date, category, tags } = data;
 
   const postData = {
     slug: postSlug,
     title,
     description,
     date,
-    keyword,
+    category,
+    tags,
     content: content,
     readingTime: Math.ceil(readingTime(content).minutes),
   };
@@ -59,10 +60,4 @@ export function getAllPosts() {
   );
 
   return sortedPosts;
-}
-
-export function getKeywordPosts(keyword: string) {
-  const keywordLower = keyword.toLowerCase();
-  const posts = getAllPosts();
-  return posts.filter((post) => post.keyword.includes(keywordLower));
 }

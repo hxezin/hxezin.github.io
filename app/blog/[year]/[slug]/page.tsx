@@ -44,20 +44,13 @@ interface Props {
 function PostDetail({ params }: Props) {
   const { year, slug } = params;
   const postData = getPostData(year, slug);
-  const {
-    slug: yearSlug,
-    content,
-    keyword,
-    title,
-    date,
-    readingTime,
-  } = postData;
+  const { slug: yearSlug, content, tags, title, date, readingTime } = postData;
 
   return (
     <section className='w-full relative md:flex gap-10'>
       <article>
         <PostHeader
-          keyword={keyword}
+          tags={tags}
           title={title}
           date={date}
           readingTime={readingTime}

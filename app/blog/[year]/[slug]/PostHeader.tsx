@@ -1,15 +1,15 @@
-import KeywordList from '@/_components/keyword/KeywordList';
+import TagList from '@/_components/tag/TagList';
 import { formattedDate } from '@/_helpers/format';
 import { AiOutlineCalendar, AiOutlineFieldTime } from 'react-icons/ai';
 
 interface Props {
-  keyword: string[];
+  tags: string[];
   title: string;
   date: string;
   readingTime: number;
 }
 
-function PostHeader({ keyword, title, date, readingTime }: Props) {
+function PostHeader({ tags, title, date, readingTime }: Props) {
   return (
     <header className='pb-6 border-b-2 flex flex-col gap-3'>
       <h1>{title}</h1>
@@ -22,7 +22,7 @@ function PostHeader({ keyword, title, date, readingTime }: Props) {
           <AiOutlineFieldTime className='text-base' /> {readingTime} min read
         </div>
       </div>
-      <KeywordList keywords={keyword} />
+      <TagList tags={tags} />
     </header>
   );
 }

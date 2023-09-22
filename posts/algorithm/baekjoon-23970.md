@@ -2,7 +2,8 @@
 title: '[백준/JavaScript] 23970 알고리즘 수업 - 버블 정렬 3'
 description: '버블 정렬 알고리즘을 공부하고 백준 알고리즘 수업 - 버블 정렬 3 문제를 JavaScript로 해결합니다.'
 date: '2023-09-15'
-keyword: ['algorithm', 'javascript']
+category: '알고리즘'
+tags: ['JavaScript']
 ---
 
 ## 문제 출처

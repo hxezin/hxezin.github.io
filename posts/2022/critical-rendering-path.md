@@ -2,7 +2,8 @@
 title: '브라우저의 렌더링 과정(CRP)'
 description: '브라우저의 렌더링 과정인 CRP(Critical Rendering Path)에 대해 알아봅니다.'
 date: '2022-07-21'
-keyword: ['javascript']
+category: 'TIL'
+tags: ['JavaScript']
 ---
 
 ## 브라우저 렌더링
