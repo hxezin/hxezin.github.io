@@ -1,14 +1,18 @@
-import Hero from '@/_components/Hero';
-import PostsGrid from '@/_components/blog/PostsGrid';
+import Contact from '@/_components/home/Contact';
+import Hero from '@/_components/home/Hero';
+import RecentPosts from '@/_components/home/RecentPosts';
+import Skill from '@/_components/home/Skill';
 import { getAllPosts } from '@/_helpers/post';
 
 export default async function Home() {
-  const posts = getAllPosts();
+  const recentPosts = getAllPosts().slice(0, 5);
 
   return (
     <section>
       <Hero />
-      <PostsGrid posts={posts} />
+      <Contact />
+      <Skill />
+      <RecentPosts posts={recentPosts} />
     </section>
   );
 }
