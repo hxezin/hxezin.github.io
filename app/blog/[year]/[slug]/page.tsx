@@ -4,6 +4,7 @@ import PostHeader from '@/_components/blog/PostHeader';
 import PostContent from '@/_components/blog/PostContent';
 import Comments from '@/_components/blog/Comments';
 import PageNavigation from '@/_components/blog/PageNavgiation';
+import TagList from '@/_components/blog/TagList';
 
 export const revalidate = 600;
 export async function generateStaticParams() {
@@ -56,6 +57,7 @@ function PostDetail({ params }: Props) {
           readingTime={readingTime}
         />
         <PostContent slug={yearSlug} content={content} />
+        <TagList tags={tags} />
         <Comments />
       </article>
       <PageNavigation />

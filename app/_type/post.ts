@@ -11,3 +11,7 @@ export interface Post extends PostMatter {
   content: string;
   readingTime: number;
 }
+
+export interface Tag {
+  [key: string]: number;
+}

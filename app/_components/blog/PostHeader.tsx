@@ -1,4 +1,3 @@
-import TagList from '@/_components/tag/TagList';
 import { formattedDate } from '@/_helpers/format';
 import { AiOutlineCalendar, AiOutlineFieldTime } from 'react-icons/ai';
 
@@ -22,7 +21,6 @@ function PostHeader({ tags, title, date, readingTime }: Props) {
           <AiOutlineFieldTime className='text-base' /> {readingTime} min read
         </div>
       </div>
-      <TagList tags={tags} />
     </header>
   );
 }
