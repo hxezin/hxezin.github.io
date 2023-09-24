@@ -1,9 +1,7 @@
 'use client';
-
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { stackoverflowLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { createHeadingId } from '@/_helpers/format';
@@ -42,7 +40,7 @@ function PostContent({ slug, content }: Props) {
         <a
           href={props.href}
           target='_blank'
-          className='text-indigo-400 no-underline decoration-indigo-500 underline-offset-4 decoration-1 hover:underline'
+          className='decoration-indigo-500 underline-offset-4 decoration-2 hover:no-underline hover:bg-indigo-500 hover:text-neutral-50'
         >
           {props.children}
         </a>
