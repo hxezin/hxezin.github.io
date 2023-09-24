@@ -7,7 +7,7 @@ function Contact() {
       <ul className='py-6 pl-1'>
         {CONTACT.map((contact) => {
           return (
-            <li className='inline-block mr-2 mb-3'>
+            <li key={contact.name} className='inline-block mr-2 mb-3'>
               <a
                 href={contact.href}
                 target='_blank'
