@@ -4,7 +4,7 @@ import { getAllPosts } from '@/_helpers/post';
 const URL = 'https://hxezin.github.io';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ['', '/about', '/blog'].map((route) => ({
+  const routes = ['', '/blog'].map((route) => ({
     url: `${URL}${route}`,
     lastModified: new Date(),
   }));
