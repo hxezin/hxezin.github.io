@@ -1,0 +1,342 @@
+---
+title: 'React Query 시작하기'
+description: 'React Query 기본 설정과 핵심 개념에 대해 알아봅니다.'
+date: '2023-10-21'
+category: 'TIL'
+tags: ['React Query']
+---
+
+![](231021.png)
+
+## 개요
+
+React Query는 React 애플리케이션에서 서버 상태를 불러오고, 동기화하고, 업데이트하는 작업을 간편하게 만들어주는 도구입니다.
+
+기본적으로 React 애플리케이션은 컴포넌트에서 데이터를 가져오거나 업데이트하는 확실한 방법을 제공하지 않습니다. 개발자는 직접 데이터를 가져오는 방법을 구축해야 하는데, 보통 React 훅을 사용해 컴포넌트 기반 상태와 효과를 조합하거나, 일반적인 상태 관리 라이브러리를 사용하여 애플리케이션 전체에서 비동기 데이터를 저장하고 제공합니다.
+
+대부분 전통적인 상태 관리 라이브러리는 클라이언트 상태 작업에는 적합하지만, 비동기 또는 서버 상태 작업에는 적합하지 않습니다. 이것은 서버 상태가 완전히 다른 특징을 가지고 있기 때문입니다. 원격 위치에 영속적으로 저장되며, 가져오고 업데이트하기 위한 비동기 API가 필요합니다. 또한 다른 사람들이 알지 못하게 변경할 수 있으며, 애플리케이션에서 데이터가 ‘최신 상태’가 아닌 경우 문제가 발생할 수 있습니다.
+
+React Query는 이러한 서버 상태를 효과적으로 관리하기 위한 라이브러리 중 하나이며, 별도의 설정 없이 바로 사용 할 수 있습니다. React Query를 사용하면 몇 줄의 React Query 로직으로 복잡하고 이해하기 어려운 코드를 대체할 수 있으며, 애플리케이션을 더 쉽게 유지 보수하고 새로운 기능을 개발하는데 도움이 됩니다. 또한 애플리케이션의 속도와 반응성이 빨라져 사용자에게 직접적인 영향을 미칠 수 있으며, 대역폭을 절약하고 메모리 성능을 향상시킬 수 있습니다.
+
+## 설치
+
+```bash
+$ npm i @tanstack/react-query
+# or
+$ pnpm add @tanstack/react-query
+# or
+$ yarn add @tanstack/react-query
+```
+
+## React Query 기본 설정
+
+`QueryClient`를 사용하여 캐시와 상호작용할 수 있으며, 모든 쿼리 및 mutation에 옵션을 설정할 수 있습니다. 
+
+`QueryClientProvider`는 React Query를 React 애플리케이션에 쉽게 통합할 수 있도록 도와주는 컴포넌트입니다. 주로 React 애플리케이션의 최상위 컴포넌트 중 하나인 App 컴포넌트 내에서 사용됩니다. `QueryClientProvider`를 사용하면 애플리케이션 전체에서 `QueryClient`를 공유하고 쉽게 액세스할 수 있습니다.
+
+```jsx
+import { QueryClient } from '@tanstack/react-query';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+    },
+  },
+});
+
+function App(){
+	return(
+		<QueryClientProvider client={queryClient}>
+			 {/* The rest of your application */}
+		</QueryClientProvider>
+	)
+}
+```
+
+## Devtools
+
+React Query는 전용 Devtools를 제공합니다.
+
+Devtools는 React Query의 모든 내부 작동을 시각화하여 쿼리의 상태를 이해하는 데 도움이 됩니다. 또 현재 캐시에 어떤 데이터가 있는지 알려주므로 디버깅 시간을 절약할 수 있습니다. 
+
+### Devtools 설치
+
+```bash
+$ npm i @tanstack/react-query-devtools
+# or
+$ pnpm add @tanstack/react-query-devtools
+# or
+$ yarn add @tanstack/react-query-devtools
+```
+
+### Devtools 사용하기
+
+```tsx
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      {/* The rest of your application */}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  )
+}
+```
+
+기본적으로 React Query Devtools는 `process.env.NODE_ENV === 'development'`일 때만 실행되며, 프로덕션 빌드에서 제외됩니다.
+
+## Queries
+
+쿼리는 서버에서 고유 키와 관련된 데이터를 가져오는 데 사용되는 요청을 말하며, 모든 프로미스 기반 메서드와 함께 사용할 수 있습니다. 메서드가 서버의 데이터를 수정하는 경우 mutations을 사용하는 것을 권장합니다.
+
+쿼리를 구독하려면 컴포넌트나 custom hooks에서 `useQuery` 훅을 호출합니다.
+
+### useQuery
+
+`useQuery`는 데이터를 서버에서 가져오는 데 사용됩니다. `useQuery`를 사용하면 데이터를 가져오고 캐시를 관리하는 일련의 작업을 간단하게 처리할 수 있습니다.
+
+```bash
+import { useQuery } from '@tanstack/react-query'
+
+function App() {
+  const { data, isPending, isError, error } = useQuery({ queryKey: ['todos'], queryFn: fetchTodoList })
+}
+```
+
+`useQuery`는 기본적으로 다음과 같은 매개변수를 사용합니다.
+
+- `queryKey`
+    - 데이터를 가져오는데 사용되는 고유한 식별자
+    - 이 키가 변경되면 쿼리가 자동으로 업데이트 됩니다. (`enabled`가 `false`로 설정되지 않은 경우)
+- `queryFn`
+    - 쿼리가 데이터를 요청할 때 사용할 함수
+    - 데이터를 해결(resolve) 하거나 오류를 throw하는 Promise를 반환
+
+`useQuery` 반환 값에는 쿼리의 상태에 대한 중요한 정보가 포함되어 있습니다. 쿼리는 특정 시점에서 다음 중 하나의 상태에 속합니다.
+
++ `isPending` or `status === 'pending'`: 캐시된 데이터가 없고 쿼리 시도가 아직 완료되지 않은 경우
++ `isError` or `status === 'error'`: 쿼리가 데이터를 가져오는 과정에서 오류가 발생한 경우
++ `isSuccess` or `status === 'success'`: 쿼리가 성공적으로 데이터를 가져와서 데이터가 사용 가능한 경우
+
+이러한 주요 상태 이외에도, 쿼리의 상태에 따라 사용 가능한 추가 정보를 제공합니다.
+
++ `error`
+  + 기본값은 `null`
+  + 쿼리의 오류 객체로, 오류가 발생한 경우 해당 오류 정보를 포함
++ `data`
+  + 기본값은 `undefined`
+  + 쿼리가 마지막으로 성공적으로 받은 데이터
++ `isFetching`
+  + 현재 쿼리가 데이터를 가져오고 있는지 여부
+
+보통 `isPending` 상태를 확인한 다음 `isError` 상태를 확인하고, 마지막으로 성공 상태를 간주하여 사용자 인터페이스를 업데이트합니다.
+
+```jsx
+function Todos() {
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ['todos'],
+    queryFn: fetchTodoList,
+  })
+
+  if (isPending) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
+
+  // We can assume by this point that `isSuccess === true`
+  return (
+    <ul>
+      {data.map((todo) => (
+        <li key={todo.id}>{todo.title}</li>
+      ))}
+    </ul>
+  )
+}
+```
+
+React Query v4에서 `fetchStatus` 속성이 추가되었습니다.
+
++ `fetching`: 쿼리가 데이터를 가져오는 중
++ `paused`: 쿼리가 데이터를 가져오려고 했지만 일시 중지되었거나 중단된 상태
++ `idle`: 쿼리가 아무 작업도 하지 않은 상태
+
+
+### 💡 status와 fetchStatus, 왜 두 가지 상태가 있는가?
+
+React Query v4에서 `status`의 `idle`이 제거되고 새로운 상태값인 `fetchStatus`가 추가되었습니다.
+
+`status`와 `fetchStatus` 두 가지 상태를 함께 사용하면 다양한 상황을 다룰 수 있습니다.
+
+- `status`가 `success` 상태라면 주로 `fetchStatus`는 `idle` 상태지만, 백그라운드에서 데이터를 다시 가져오는 경우 `fetching` 상태일 수 있습니다.
+- `status`가 `pending` 상태일 때 `fetchStatus`는 주로 `fetching` 상태지만, 네트워크 연결이 없는 경우 `paused`가 될 수 있습니다.
+
+기본적으로 `status`는 데이터의 유무에 대한 정보를 제공하며, `fetchStatus`는 `queryFn` 함수의 실행 여부를 나타냅니다. 이러한 상태를 함께 사용하여 쿼리의 상태와 동작을 정확하게 이해하고 처리할 수 있습니다.
+
+### 💡 isPending vs. isFetching
+
+React Query v5에서 `isLoading`이 `isPending`으로 변경되었습니다.
+
+- `isFetching`은 현재 쿼리가 데이터를 가져오고 있는지 여부
+- `isPending`은 캐시된 데이터가 없고, 쿼리가 아직 완료되지 않은 경우
+
+즉, `isPending`과 `isFetching`은 **기존에 캐시된 데이터**가 있는지에 차이가 있습니다.
+
+### 💡 staleTime vs. gcTime
+
+React Query v5에서 `cacheTime`이 `gcTime` 으로 변경되었습니다.
+
+- `staleTime`
+    - 기본값은 `0`
+    - 데이터가 오래된 상태로 간주되기전까지의 시간(ms)을 나타냅니다.
+    - `Infinity`로 설정하면 데이터가 영원히 오래된 상태로 간주되지 않음을 의미합니다.
+- `gcTime`
+    - 기본값은 `5분`, SSR 중에는 `Infinity`
+    - 사용되지 않거나 비활성화된 캐시 데이터가 메모리에 유지되는 시간(ms)을 나타냅니다
+    - 특정 쿼리의 캐시가 사용되지 않거나 비활성화된 경우, 해당 캐시 데이터는 `gcTime`이 지난 후에 가비지 콜렉터로 수집됩니다.
+    - `Infinity`로 설정하면 가비지 콜렉션이 비활성화됩니다.
+
+![](231021-2.png)
+
+React Query 개발자 Tanner Linsley의 트윗에서 `staleTime`의 기본값이 `0ms`인 이유를 알 수 있습니다.
+
+`staleTime` 값이 `0`으로 설정되면 데이터는 항상 `stale` 상태로 간주됩니다. 즉, 데이터가 즉시 만료되며 클라이언트는 데이터를 사용할 때마다 항상 서버에서 새로운 데이터를 가져오게 됩니다. 데이터를 캐시하지 않고 항상 최신 데이터를 요청하는 것이므로 실수로 클라이언트에게 만료된 데이터를 제공할 가능성이 훨씬 줄어듭니다.
+이러한 설정은 실시간 데이터가 중요하거나 데이터의 신뢰성을 유지해야 하는 상황에서 유용할 수 있습니다.
+
+## Mutations
+
+쿼리와 달리 mutation은 일반적으로 데이터를 생성, 업데이트, 삭제하거나 서버 사이드 이펙트를 수행하는 데 사용됩니다. 이를 위해 React Query는 `useMutation` 훅을 지원합니다.
+
+### useMutation
+
+`useMutation`은 데이터 변경 작업을 하기 위해 사용됩니다. `useMutation`을 사용하면 API 호출 및 데이터 변경과 관련된 로직을 효율적으로 처리할 수 있으며, 성공 및 실패에 따른 처리 및 업데이트를 관리할 수 있습니다.
+
+```jsx
+function App() {
+  const mutation = useMutation({
+    mutationFn: (newTodo) => {
+      return axios.post('/todos', newTodo)
+    },
+  })
+
+  return (
+    <div>
+      {mutation.isPending ? (
+        'Adding todo...'
+      ) : (
+        <>
+          {mutation.isError ? (
+            <div>An error occurred: {mutation.error.message}</div>
+          ) : null}
+
+          {mutation.isSuccess ? <div>Todo added!</div> : null}
+
+          <button
+            onClick={() => {
+              mutation.mutate({ id: new Date(), title: 'Do Laundry' })
+            }}
+          >
+            Create Todo
+          </button>
+        </>
+      )}
+    </div>
+  )
+}
+```
+
+mutation은 다음 상태 중 하나의 값만 가질 수 있습니다.
++ `isIdle` or `status === 'idle'`: mutations이 현재 유휴 상태이거나 초기화/재설정된 상태
++ `isPending` or `status === 'pending'`: mutation이 현재 실행중인 상태
++ `isError` or `status === 'error'`: mutation에서 오류가 발생한 상태
++ `isSuccess` or `status === 'success'`: mutation이 성공적이고 해당 데이터를 사용할 수 있는 상태
+
+`mutate` 함수를 사용하여 `mutationFn`에 단일 변수 또는 객체를 전달할 수 있습니다.
+
+### Mutation 사이드 이펙트
+
+`useMutation`은 mutation 생명 주기 동안 언제든지 간편하게 사이드 이펙트를 처리할 수 있도록 도와주는 옵션들을 제공합니다. 이러한 옵션은 mutation 실행 후 발생하는 다양한 이벤트를 대응하는 데 유용하며, 주로 mutation 이후에 쿼리를 무효화하거나 다시 가져올 때, 그리고 optimistic update와 같은 작업에 활용됩니다.
+
+```jsx
+useMutation({
+  mutationFn: addTodo,
+  onMutate: (variables) => {
+    // A mutation is about to happen!
+
+    // Optionally return a context containing data to use when for example rolling back
+    return { id: 1 }
+  },
+  onError: (error, variables, context) => {
+    // An error happened!
+    console.log(`rolling back optimistic update with id ${context.id}`)
+  },
+  onSuccess: (data, variables, context) => {
+    // Boom baby!
+  },
+  onSettled: (data, error, variables, context) => {
+    // Error or success... doesn't matter!
+  },
+})
+```
+
+`useMutation`에서 `mutate`를 호출할 때 정의된 콜백 이외의 추가 콜백 함수를 실행하고 싶을 수 있습니다. 이것은 컴포넌트별 사이드 이펙트를 트리거하는 데 사용될 수 있습니다. 이렇게 하려면 `mutate` 함수에 동일한 콜백 옵션을 제공하면 됩니다. 지원되는 옵션으로는 `onSuccess`, `onError`, `onSettled`가 있습니다.
+
+```jsx
+useMutation({
+  mutationFn: addTodo,
+  onSuccess: (data, variables, context) => {
+    // I will fire first
+  },
+  onError: (error, variables, context) => {
+    // I will fire first
+  },
+  onSettled: (data, error, variables, context) => {
+    // I will fire first
+  },
+})
+
+mutate(todo, {
+  onSuccess: (data, variables, context) => {
+    // I will fire second!
+  },
+  onError: (error, variables, context) => {
+    // I will fire second!
+  },
+  onSettled: (data, error, variables, context) => {
+    // I will fire second!
+  },
+})
+```
+
+### 💡 useMutation 콜백과 mutate 콜백의 차이
+
+`useMutation`과 `mutate` 모두 콜백을 가질 수 있습니다. 중요한 점은 `useMutate`의 콜백이 `mutate`의 콜백보다 먼저 실행된다는 것입니다. 또, mutation이 완료되기 전에 컴포넌트가 언마운트되면 `mutate`의 콜백이 실행되지 않을 수 있습니다.
+
+- `useMutation`의 콜백에서는 절대적으로 필요하고 논리적으로 관련된 작업(e.g. 쿼리 무효화)을 수행합니다.
+- `mutate`의 콜백에서는 리다이렉션 또는 토스트 알림과 같은 UI 관련 작업을 수행합니다. 사용자가 mutation이 완료되기 전에 현재 화면에서 이탈했을 경우, 이러한 작업도 의도적으로 실행되지 않을 것입니다.
+
+## Query Invalidation
+
+사용자의 작업으로 인해 데이터가 업데이트되어야 하는 경우처럼 강제로 쿼리를 무효화하고 최신화해야 할 때가 있습니다. `QueryClient`는 쿼리를 `stale` 상태로 표시하고 refetch 할 수 있는 `invalidateQueries` 메서드를 제공합니다.
+
+```jsx
+// 캐시의 모든 쿼리를 무효화
+queryClient.invalidateQueries()
+// 'todos'로 시작하는 키가 있는 모든 쿼리 무효화
+queryClient.invalidateQueries({ queryKey: ['todos'] })
+```
+
+쿼리가 `invalidateQueries`로 무효화되면 두 가지 일이 발생합니다.
+
+- `stale` 상태로 표시됩니다. `stale` 상태는 `useQuery` 또는 관련 훅에서 사용 중인 모든 `staleTime`을 재정의합니다.
+- 만약 `useQuery` 또는 관련 훅을 통해 쿼리가 렌더링되고 있는 경우 백그라운드에서도 refetch 합니다.
+
+## 참고 자료
+
+- [Practical React Query | TkDodo's Blog](https://tkdodo.eu/blog/practical-react-query)
+- [Mastering Mutations in React QUery | TkDodo’s Blog](https://tkdodo.eu/blog/mastering-mutations-in-react-query#some-callbacks-might-not-fire)
+- [React Query : React로 서버 상태 관리하기 | Udemy](https://www.udemy.com/course/react-query-react/)
