@@ -337,6 +337,6 @@ queryClient.invalidateQueries({ queryKey: ['todos'] })
 
 ## 참고 자료
 
+- [TanStack Query Docs](https://tanstack.com/query/latest/docs/react/overview)
 - [Practical React Query | TkDodo's Blog](https://tkdodo.eu/blog/practical-react-query)
 - [Mastering Mutations in React QUery | TkDodo’s Blog](https://tkdodo.eu/blog/mastering-mutations-in-react-query#some-callbacks-might-not-fire)
-- [React Query : React로 서버 상태 관리하기 | Udemy](https://www.udemy.com/course/react-query-react/)
