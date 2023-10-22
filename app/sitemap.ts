@@ -6,14 +6,14 @@ const URL = 'https://hxezin.github.io';
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = ['', '/blog'].map((route) => ({
     url: `${URL}${route}`,
-    lastModified: new Date(),
+    lastModified: new Date().toISOString().split('T')[0],
   }));
 
-  const allPosts = getAllPosts();
-  const postsSiteMap = allPosts.map((post) => ({
+  const posts = getAllPosts();
+  const blogs = posts.map((post) => ({
     url: `${URL}/blog/${post.slug}`,
     lastModified: post.date,
   }));
 
-  return [...routes, ...postsSiteMap];
+  return [...routes, ...blogs];
 }
