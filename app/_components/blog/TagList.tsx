@@ -8,7 +8,7 @@ function TagList({ tags }: Props) {
   return (
     <ul className='flex gap-2'>
       {tags.map((tag) => (
-        <li>
+        <li key={tag}>
           <Link
             href={{
               pathname: '/blog',
