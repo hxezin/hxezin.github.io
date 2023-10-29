@@ -1,9 +1,9 @@
-import { CONTACT, HEADER_CSS } from '@/_helpers/about';
+import { CONTACT } from '@/_helpers/about';
 
 function Contact() {
   return (
     <section className='mb-16'>
-      <h3 className={HEADER_CSS}>Contact</h3>
+      <h3 className='about-header'>Contact</h3>
       <ul className='py-6 pl-1'>
         {CONTACT.map((contact) => {
           return (
@@ -11,7 +11,7 @@ function Contact() {
               <a
                 href={contact.href}
                 target='_blank'
-                className='flex items-center text-sm gap-2 px-2 py-1 rounded hover:bg-neutral-100 transition-color duration-300'
+                className='flex items-center text-sm gap-2 px-2 py-1 rounded hover:bg-second transition-color duration-300'
               >
                 <contact.icon className='text-xl' /> {contact.name}
               </a>

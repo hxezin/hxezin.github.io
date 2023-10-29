@@ -1,10 +1,10 @@
-import { HEADER_CSS, SKILL } from '@/_helpers/about';
+import { SKILL } from '@/_helpers/about';
 import React from 'react';
 
 function Skill() {
   return (
     <section className='mb-16'>
-      <h3 className={HEADER_CSS}>Skill</h3>
+      <h3 className='about-header'>Skill</h3>
       <ul className='py-6 pl-2'>
         {SKILL.map((skill) => {
           return (

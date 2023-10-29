@@ -5,6 +5,18 @@ module.exports = {
   content: ['./app/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      backgroundColor: {
+        primary: 'var(--background-color-primary)',
+        second: 'var(--background-color-second)',
+      },
+      textColor: {
+        primary: 'var(--color-primary)',
+        second: 'var(--color-second)',
+        accent: 'var(--accent-color-primary)',
+      },
+      borderColor: {
+        gray: 'var(--border-color-gray)',
+      },
       typography: {
         DEFAULT: {
           css: {

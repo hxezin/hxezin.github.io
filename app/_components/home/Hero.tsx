@@ -12,9 +12,9 @@ function Hero() {
         />
       </div>
       <div className='flex flex-col justify-center gap-2'>
-        <p className='text-indigo-600 text-sm font-semibold'>@hxezin</p>
+        <p className='text-accent text-sm font-semibold'>@hxezin</p>
         <h1 className='font-extrabold'>이혜진</h1>
-        <p className='text-neutral-400 text-sm'>
+        <p className='text-second text-sm'>
           <em>Frontend Developer</em>
         </p>
       </div>
