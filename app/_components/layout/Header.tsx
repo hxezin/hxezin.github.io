@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { BsFillSunFill, BsFillMoonStarsFill } from 'react-icons/bs';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -11,8 +12,13 @@ const navLinks = [
 function Header() {
   const pathname = usePathname();
 
+  const toggleTheme = () => {
+    localStorage.theme = localStorage.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.classList.toggle('dark');
+  };
+
   return (
-    <header className='w-full h-16 flex items-center'>
+    <header className='w-full h-16 flex justify-between items-center'>
       <nav>
         <ul className='flex gap-5 md:gap-10 text-base'>
           {navLinks.map((link) => {
@@ -42,6 +48,10 @@ function Header() {
           })}
         </ul>
       </nav>
+      <button onClick={toggleTheme} className='text-amber-400'>
+        <BsFillSunFill className='hidden dark:block' />
+        <BsFillMoonStarsFill className='dark:hidden' />
+      </button>
     </header>
   );
 }

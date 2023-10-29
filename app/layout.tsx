@@ -9,8 +9,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const setTheme = `
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
+      `;
+
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang='en'>
       <body>
         <AnalyticsProvider>
           <div className='wrapper h-auto min-h-full pb-28 max-w-4xl mx-auto px-4'>
@@ -19,6 +27,7 @@ export default function RootLayout({
           </div>
           <Footer />
         </AnalyticsProvider>
+        <script dangerouslySetInnerHTML={{ __html: setTheme }} />
       </body>
     </html>
   );
