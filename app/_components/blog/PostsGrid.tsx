@@ -11,9 +11,9 @@ function PostsGrid({ posts }: Props) {
     <ul className='grid grid-cols-1 content-center gap-7 w-full'>
       {posts.map((post, index) => (
         <Fragment key={post.slug}>
-          {index === 0 && <div className='border-t border-neutral-200'></div>}
+          {index === 0 && <div className='border-t border-primary'></div>}
           <PostItem post={post} />
-          {<div className='border-t border-neutral-200'></div>}
+          {<div className='border-t border-primary'></div>}
         </Fragment>
       ))}
     </ul>

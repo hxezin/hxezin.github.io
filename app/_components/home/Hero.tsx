@@ -14,7 +14,7 @@ function Hero() {
       <div className='flex flex-col justify-center gap-2'>
         <p className='text-accent text-sm font-semibold'>@hxezin</p>
         <h1 className='font-extrabold'>이혜진</h1>
-        <p className='text-second text-sm'>
+        <p className='text-secondary text-sm'>
           <em>Frontend Developer</em>
         </p>
       </div>

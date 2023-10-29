@@ -14,8 +14,8 @@ function Category({ currentCategory, onClick }: Props) {
         return (
           <li
             key={category}
-            className={`px-2 py-0.5 rounded hover:bg-neutral-100 cursor-pointer transition-color duration-300 ${
-              isActive ? 'text-neutral-900 font-semibold' : 'text-neutral-400'
+            className={`px-2 py-0.5 rounded hover:bg-secondary cursor-pointer transition-color duration-300 ${
+              isActive ? 'text-primary font-semibold' : 'text-secondary'
             }`}
             onClick={() => onClick(category)}
           >

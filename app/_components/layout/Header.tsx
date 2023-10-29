@@ -35,10 +35,8 @@ function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`hover:border-b-4 hover:border-indigo-500 transition-color duration-200 pb-1 ${
-                    isActive
-                      ? 'border-b-4 border-indigo-500 font-bold'
-                      : 'text-neutral-900'
+                  className={`hover:border-b-4 hover:border-primary transition-color duration-100 pb-1 ${
+                    isActive && 'border-b-4 border-primary font-bold'
                   }`}
                 >
                   {link.name}

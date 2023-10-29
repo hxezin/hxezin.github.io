@@ -15,11 +15,11 @@ function RecentPosts({ posts }: Props) {
         {posts.map((post) => {
           return (
             <Fragment key={post.slug}>
-              <li className='px-3 py-2 hover:bg-second'>
+              <li className='px-3 py-2 hover:bg-secondary'>
                 <Link href={`/blog/${post.slug}`}>
                   <h3 className='text-lg font-bold'>
                     <span className='align-middle'>{post.title}</span>
-                    <time className='text-second text-xs font-normal ml-2'>
+                    <time className='text-secondary text-xs font-normal ml-2'>
                       {formattedDate(post.date)}
                     </time>
                   </h3>

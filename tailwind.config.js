@@ -7,15 +7,21 @@ module.exports = {
     extend: {
       backgroundColor: {
         primary: 'var(--background-color-primary)',
-        second: 'var(--background-color-second)',
+        secondary: 'var(--background-color-secondary)',
+        accent: 'var(--accent-color-03)',
+        accent_hover: 'var(--accent-color-02)',
       },
       textColor: {
         primary: 'var(--color-primary)',
-        second: 'var(--color-second)',
-        accent: 'var(--accent-color-primary)',
+        secondary: 'var(--color-secondary)',
+        accent: 'var(--accent-color-01)',
+        contrast: 'var(--color-contrast)',
       },
       borderColor: {
-        gray: 'var(--border-color-gray)',
+        primary: 'var(--border-color-gray)',
+      },
+      boxShadowColor: {
+        primary: 'var(--accent-color-01)',
       },
       typography: {
         DEFAULT: {

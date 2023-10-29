@@ -11,7 +11,7 @@ function Contact() {
               <a
                 href={contact.href}
                 target='_blank'
-                className='flex items-center text-sm gap-2 px-2 py-1 rounded hover:bg-second transition-color duration-300'
+                className='flex items-center text-sm gap-2 px-2 py-1 rounded hover:bg-secondary transition-color duration-300'
               >
                 <contact.icon className='text-xl' /> {contact.name}
               </a>
