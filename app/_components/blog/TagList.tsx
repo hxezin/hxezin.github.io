@@ -15,7 +15,7 @@ function TagList({ tags }: Props) {
               query: { tag },
             }}
           >
-            <div className='text-indigo-400 text-sm'>#{tag}</div>
+            <div className='text-accent text-sm'>#{tag}</div>
           </Link>
         </li>
       ))}

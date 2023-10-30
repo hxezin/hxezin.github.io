@@ -10,7 +10,7 @@ function PageNavigation() {
       <Toc />
       <div className='mt-3 border-t border-neutral-200 pt-5'></div>
       <div
-        className='flex items-center gap-1 text-sm text-neutral-400 cursor-pointer'
+        className='page-navigation-button'
         onClick={() =>
           document
             .querySelector('.giscus')

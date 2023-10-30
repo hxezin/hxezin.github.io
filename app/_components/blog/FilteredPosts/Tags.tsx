@@ -17,7 +17,7 @@ function Tags({ tags, isSelected, onClick }: Props) {
               key={key}
               className={`px-2 py-0.5 mr-auto rounded-xl cursor-pointer transition-color duration-200 ${
                 isSelected(key)
-                  ? 'bg-accent text-neutral-950 hover:bg-accent_hover'
+                  ? 'text-neutral-950 bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-300 dark:hover:bg-indigo-400'
                   : 'bg-transparent hover:bg-secondary'
               }`}
               onClick={() => onClick(key)}

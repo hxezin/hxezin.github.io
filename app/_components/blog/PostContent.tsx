@@ -40,7 +40,7 @@ function PostContent({ slug, content }: Props) {
         <a
           href={props.href}
           target='_blank'
-          className='decoration-indigo-500 underline-offset-4 decoration-2 hover:no-underline hover:bg-indigo-500 hover:text-neutral-50'
+          className='text-primary decoration-primary underline-offset-4 decoration-2 hover:text-accent'
         >
           {props.children}
         </a>
@@ -51,7 +51,7 @@ function PostContent({ slug, content }: Props) {
 
       if (!match) {
         return (
-          <code className='px-1.5 py-1 mx-0.5 bg-[#f0f0f0] rounded-lg font-normal'>
+          <code className='px-1.5 py-1 mx-0.5 bg-gray-100 dark:bg-gray-700 text-indigo-400 dark:text-indigo-300 rounded-lg font-normal'>
             {props.children}
           </code>
         );
@@ -72,7 +72,7 @@ function PostContent({ slug, content }: Props) {
       return (
         <h2
           id={createHeadingId(props.children[0])}
-          className='mt-20 sm:mt-32 first:mt-0 pt-8 pb-4 border-b border-neutral-200'
+          className='mt-20 sm:mt-32 first:mt-0 pt-8 pb-4 border-b border-primary text-primary'
         >
           {props.children}
         </h2>
@@ -80,7 +80,10 @@ function PostContent({ slug, content }: Props) {
     },
     h3({ ...props }) {
       return (
-        <h3 className='mt-10 pt-8 pb-2' id={createHeadingId(props.children[0])}>
+        <h3
+          id={createHeadingId(props.children[0])}
+          className='mt-10 pt-8 pb-2 text-primary'
+        >
           {props.children}
         </h3>
       );
@@ -90,7 +93,7 @@ function PostContent({ slug, content }: Props) {
   return (
     <ReactMarkdown
       components={customRenderers}
-      className='w-full my-20 sm:my-32 prose prose-pre:bg-[#F6F6F6] leading-8 max-w-3xl md:max-w-2xl'
+      className='w-full my-20 sm:my-32 text-primary prose prose-pre:bg-[#F6F6F6] leading-8 max-w-3xl md:max-w-2xl'
       remarkPlugins={[remarkGfm]}
     >
       {content}

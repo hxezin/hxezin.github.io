@@ -10,9 +10,9 @@ interface Props {
 
 function PostHeader({ tags, title, date, readingTime }: Props) {
   return (
-    <header className='pb-6 border-b-2 flex flex-col gap-3'>
+    <header className='pb-6 border-b-2 border-primary flex flex-col gap-3'>
       <h1>{title}</h1>
-      <div className='flex items-center text-neutral-400 text-sm'>
+      <div className='flex items-center text-secondary text-sm'>
         <time className='flex items-center gap-1'>
           <AiOutlineCalendar className='text-base' /> {formattedDate(date)}
         </time>

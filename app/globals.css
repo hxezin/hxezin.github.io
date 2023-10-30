@@ -2,33 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --accent-color-01: #6366f1;
-  --accent-color-02: #a5b4fc;
-  --accent-color-03: #c7d2fe;
-  --background-color-primary: #fff;
-  --background-color-secondary: #f3f4f6;
-  --background-color-accent: #c7d2fe;
-  --background-color-accent-secondary: #a5b4fc;
-  --border-color-gray: #e5e7eb;
-  --color-primary: #111827;
-  --color-secondary: #a3a3a3;
-  --color-contrast: #f3f4f6;
-}
-
-.dark {
-  --accent-color-01: #a78bfa;
-  --accent-color-02: #a696e3;
-  --accent-color-03: #c4b5fd;
-  --background-color-primary: #111827;
-  --background-color-secondary: #374151;
-  --border-color-gray: #4b5563;
-  --color-primary: #f3f4f6;
-  --color-secondary: #9ca3af;
-  --color-contrast: #111827;
-}
-
 @layer base {
+  :root {
+    --accent-color-01: #4f46e5;
+    --background-color-primary: #fff;
+    --background-color-secondary: #f3f4f6;
+    --border-color-gray: #e5e7eb;
+    --color-primary: #111827;
+    --color-secondary: #a3a3a3;
+    --color-contrast: #f3f4f6;
+  }
+
+  .dark {
+    --accent-color-01: #a5b4fc;
+    --background-color-primary: #202225;
+    --background-color-secondary: #40444b;
+    --border-color-gray: #4b5563;
+    --color-primary: #f3f4f6;
+    --color-secondary: #9ca3af;
+    --color-contrast: #111827;
+  }
+
   html,
   body {
     @apply bg-primary text-primary w-full h-full cursor-default;
@@ -48,5 +42,8 @@
 @layer components {
   .about-header {
     @apply font-bold;
+  }
+  .page-navigation-button {
+    @apply flex items-center gap-1 text-sm text-secondary hover:text-accent cursor-pointer;
   }
 }

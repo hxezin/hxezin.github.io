@@ -8,8 +8,6 @@ module.exports = {
       backgroundColor: {
         primary: 'var(--background-color-primary)',
         secondary: 'var(--background-color-secondary)',
-        accent: 'var(--accent-color-03)',
-        accent_hover: 'var(--accent-color-02)',
       },
       textColor: {
         primary: 'var(--color-primary)',
@@ -21,6 +19,9 @@ module.exports = {
         primary: 'var(--border-color-gray)',
       },
       boxShadowColor: {
+        primary: 'var(--accent-color-01)',
+      },
+      textDecorationColor: {
         primary: 'var(--accent-color-01)',
       },
       typography: {

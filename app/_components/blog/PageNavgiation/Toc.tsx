@@ -35,7 +35,7 @@ function Toc() {
 
   return (
     <>
-      <div className='text-neutral-950 mb-1 mt-10 text-sm font-medium'>
+      <div className='text-primary mb-1 mt-10 text-sm font-medium'>
         On this page
       </div>
       <ul className='space-y-2.5 overflow-y-auto py-2 text-sm max-h-[70vh]'>
@@ -43,13 +43,9 @@ function Toc() {
           <li key={idx} data-depth={heading.nodeName === 'H2' ? '1' : '2'}>
             <a
               href={`#${heading.id}`}
-              className={`block leading-[1.6] hover:text-neutral-950 ${
+              className={`block leading-[1.6] hover:text-primary ${
                 heading.nodeName !== 'H2' && 'pl-3'
-              } ${
-                currentId === heading.id
-                  ? 'text-indigo-400'
-                  : 'text-neutral-400'
-              }`}
+              } ${currentId === heading.id ? 'text-accent' : 'text-secondary'}`}
             >
               {heading.textContent}
             </a>

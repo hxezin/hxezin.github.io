@@ -22,10 +22,7 @@ const ScrollToTop = () => {
   return (
     <>
       {showTopBtn && (
-        <div
-          className='flex items-center gap-1 text-sm text-neutral-400 mt-2 cursor-pointer'
-          onClick={goToTop}
-        >
+        <div className='mt-2 page-navigation-button' onClick={goToTop}>
           <span>Scroll to top</span>
           <AiOutlineArrowUp />
         </div>
