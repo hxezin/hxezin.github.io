@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import Footer from '@/_components/layout/Footer';
 import AnalyticsProvider from '@/_components/AnalyticsProvider';
+import { ThemeProvider } from '@/_contexts/ThemeContext';
 
 export default function RootLayout({
   children,
@@ -18,14 +19,16 @@ export default function RootLayout({
       `;
 
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <body>
         <AnalyticsProvider>
-          <div className='wrapper h-auto min-h-full pb-28 max-w-4xl mx-auto px-4'>
-            <Header />
-            <main className='py-16'>{children}</main>
-          </div>
-          <Footer />
+          <ThemeProvider>
+            <div className='wrapper h-auto min-h-full pb-28 max-w-4xl mx-auto px-4'>
+              <Header />
+              <main className='py-16'>{children}</main>
+            </div>
+            <Footer />
+          </ThemeProvider>
         </AnalyticsProvider>
         <script dangerouslySetInnerHTML={{ __html: setTheme }} />
       </body>
@@ -36,7 +39,7 @@ export default function RootLayout({
 export const metadata: Metadata = {
   metadataBase: new URL('https://hxezin.github.io'),
   title: {
-    template: '%s | 개발자 이혜진',
+    template: '%s',
     default: '개발자 이혜진',
   },
   description: '프론트엔드 개발자 이혜진 블로그',

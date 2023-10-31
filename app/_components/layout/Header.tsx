@@ -1,7 +1,9 @@
 'use client';
 
+import { ThemeContext } from '@/_contexts/ThemeContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useContext } from 'react';
 import { BsFillSunFill, BsFillMoonStarsFill } from 'react-icons/bs';
 
 const navLinks = [
@@ -11,11 +13,7 @@ const navLinks = [
 
 function Header() {
   const pathname = usePathname();
-
-  const toggleTheme = () => {
-    localStorage.theme = localStorage.theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.classList.toggle('dark');
-  };
+  const { toggleTheme } = useContext(ThemeContext);
 
   return (
     <header className='w-full h-16 flex justify-between items-center'>
