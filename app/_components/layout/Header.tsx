@@ -4,7 +4,7 @@ import { ThemeContext } from '@/_contexts/ThemeContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContext } from 'react';
-import { BsFillSunFill, BsFillMoonStarsFill } from 'react-icons/bs';
+import { BiSolidSun, BiSolidMoon } from 'react-icons/bi';
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -18,7 +18,7 @@ function Header() {
   return (
     <header className='w-full h-16 flex justify-between items-center'>
       <nav>
-        <ul className='flex gap-5 md:gap-10 text-base'>
+        <ul className='flex gap-5 md:gap-8'>
           {navLinks.map((link) => {
             let isActive = false;
 
@@ -33,8 +33,8 @@ function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`hover:border-b-4 hover:border-primary transition-color duration-100 pb-1 ${
-                    isActive && 'border-b-4 border-primary font-bold'
+                  className={`font-bold hover:text-secondary hover:border-primary transition-color duration-100 pb-1 ${
+                    isActive && 'text-accent'
                   }`}
                 >
                   {link.name}
@@ -44,9 +44,12 @@ function Header() {
           })}
         </ul>
       </nav>
-      <button onClick={toggleTheme} className='text-amber-400'>
-        <BsFillSunFill className='hidden dark:block' />
-        <BsFillMoonStarsFill className='dark:hidden' />
+      <button
+        onClick={toggleTheme}
+        className='text-2xl p-1 rounded hover:bg-secondary hover:text-amber-300 transition-color duration-300'
+      >
+        <BiSolidSun className='hidden dark:block' />
+        <BiSolidMoon className='dark:hidden' />
       </button>
     </header>
   );
