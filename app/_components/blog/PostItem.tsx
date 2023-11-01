@@ -15,7 +15,7 @@ function PostItem({ post }: Props) {
   return (
     <li>
       <Link href={linkPath} className='group'>
-        <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0_#c7d2fe] dark:group-hover:shadow-[inset_0_-12px_0_#6366f1] transition-color duration-200'>
+        <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0] group-hover:shadow-indigo-200 dark:group-hover:shadow-indigo-700 transition-color duration-200'>
           {title}
         </h3>
         <p className='leading-6 line-clamp-2 text-neutral-500 text-sm my-2'>

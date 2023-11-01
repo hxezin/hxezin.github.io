@@ -62,7 +62,7 @@ function PostContent({ slug, content }: Props) {
 
       if (!match) {
         return (
-          <code className='px-1.5 py-1 mx-0.5 bg-gray-100 dark:bg-gray-700 text-indigo-400 dark:text-indigo-300 rounded-lg font-normal'>
+          <code className='px-1.5 py-1 mx-0.5 bg-gray-100 dark:bg-gray-700 text-accent rounded-lg font-normal'>
             {props.children}
           </code>
         );
