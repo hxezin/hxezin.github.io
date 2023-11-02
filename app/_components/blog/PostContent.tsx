@@ -4,13 +4,8 @@ import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import {
-  stackoverflowLight,
-  stackoverflowDark,
-} from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { stackoverflowDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { createHeadingId } from '@/_helpers/format';
-import { useContext } from 'react';
-import { ThemeContext } from '@/_contexts/ThemeContext';
 
 interface Props {
   slug: string;
@@ -18,8 +13,6 @@ interface Props {
 }
 
 function PostContent({ slug, content }: Props) {
-  const { theme } = useContext(ThemeContext);
-
   const customRenderers = {
     p(paragraph: any) {
       const { node } = paragraph;
@@ -70,7 +63,7 @@ function PostContent({ slug, content }: Props) {
 
       return (
         <SyntaxHighlighter
-          style={theme === 'light' ? stackoverflowLight : stackoverflowDark}
+          style={stackoverflowDark}
           language={match[1]}
           PreTag='div'
           {...props}
@@ -104,7 +97,7 @@ function PostContent({ slug, content }: Props) {
   return (
     <ReactMarkdown
       components={customRenderers}
-      className='w-full my-20 sm:my-32 text-primary prose prose-pre:bg-[#F6F6F6] dark:prose-pre:bg-[#1C1B1B] leading-8 max-w-3xl md:max-w-2xl'
+      className='w-full my-20 sm:my-32 text-primary prose prose-pre:bg-[#1C1B1B] leading-8 max-w-3xl md:max-w-2xl'
       remarkPlugins={[remarkGfm]}
     >
       {content}

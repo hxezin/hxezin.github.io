@@ -3,7 +3,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import Footer from '@/_components/layout/Footer';
 import AnalyticsProvider from '@/_components/AnalyticsProvider';
-import { ThemeProvider } from '@/_contexts/ThemeContext';
 
 export default function RootLayout({
   children,
@@ -22,13 +21,11 @@ export default function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <body>
         <AnalyticsProvider>
-          <ThemeProvider>
-            <div className='wrapper h-auto min-h-full pb-28 max-w-4xl mx-auto px-4'>
-              <Header />
-              <main className='py-16'>{children}</main>
-            </div>
-            <Footer />
-          </ThemeProvider>
+          <div className='wrapper h-auto min-h-full pb-28 max-w-4xl mx-auto px-4'>
+            <Header />
+            <main className='py-16'>{children}</main>
+          </div>
+          <Footer />
         </AnalyticsProvider>
         <script dangerouslySetInnerHTML={{ __html: setTheme }} />
       </body>

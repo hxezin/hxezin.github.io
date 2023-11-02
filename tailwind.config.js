@@ -18,9 +18,6 @@ module.exports = {
       borderColor: {
         primary: 'var(--border-color-gray)',
       },
-      boxShadowColor: {
-        primary: 'var(--accent-color-01)',
-      },
       textDecorationColor: {
         primary: 'var(--accent-color-01)',
       },
