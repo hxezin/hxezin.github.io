@@ -34,7 +34,9 @@ function PostContent({ slug, content }: Props) {
         );
       }
 
-      return <p>{paragraph.children}</p>;
+      return (
+        <p className='text-primary before:content-none'>{paragraph.children}</p>
+      );
     },
     strong({ ...props }) {
       return <strong className='text-primary'>{props.children}</strong>;
@@ -91,6 +93,9 @@ function PostContent({ slug, content }: Props) {
           {props.children}
         </h3>
       );
+    },
+    th({ ...props }) {
+      return <th className='text-primary font-bold'>{props.children}</th>;
     },
   };
 
