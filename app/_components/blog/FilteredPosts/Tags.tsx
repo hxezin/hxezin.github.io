@@ -1,9 +1,9 @@
-import { Tag } from '@/_type/post';
+import { Tag } from '@/_type/post'
 
 interface Props {
-  tags: Tag;
-  isSelected: (tag: string) => boolean;
-  onClick: (tag: string) => void;
+  tags: Tag
+  isSelected: (tag: string) => boolean
+  onClick: (tag: string) => void
 }
 
 function Tags({ tags, isSelected, onClick }: Props) {
@@ -15,7 +15,7 @@ function Tags({ tags, isSelected, onClick }: Props) {
           return (
             <li
               key={key}
-              className={`px-2 py-0.5 mr-auto rounded-xl cursor-pointer transition-color duration-200 ${
+              className={`px-2 py-0.5 mr-auto rounded-xl cursor-pointer transition-color duration-200 whitespace-nowrap ${
                 isSelected(key)
                   ? 'text-neutral-950 bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-300 dark:hover:bg-indigo-400'
                   : 'bg-transparent hover:bg-secondary'
@@ -24,11 +24,11 @@ function Tags({ tags, isSelected, onClick }: Props) {
             >
               {key} ({value})
             </li>
-          );
+          )
         })}
       </ul>
     </div>
-  );
+  )
 }
 
-export default Tags;
+export default Tags
