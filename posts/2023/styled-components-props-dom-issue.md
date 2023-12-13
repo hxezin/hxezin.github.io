@@ -1,0 +1,97 @@
+---
+title: '스타일드 컴포넌트로 props 전달 시 DOM 요소로 전달되는 문제'
+description: '스타일드 컴포넌트로 props를 전달할 때 DOM 요소로 전달되는 문제를 해결합니다.'
+date: '2023-12-12'
+category: '개발'
+tags: ['React', 'styled-components']
+---
+
+## 문제 발생
+
+```jsx
+const Container = styled.div<{ isCurrentMonth: boolean }>`
+  color: ${({ isCurrentMonth }) => (isCurrentMonth ? '#000' : '#ccc')};
+`
+
+const Component = ({ isCurrentMonth }: { isCurrentMonth: boolean }) => {
+	return (
+		<Container isCurrentMonth={isCurrentMonth}>
+			...
+		</Container>
+	)
+}
+
+```
+
+styled-components로 생성한 컴포넌트에 boolean 타입의 prop을 전달할 때 에러가 발생했습니다.
+
+![](231212.png)
+
+> react-dom.development.js:86 Warning: React does not recognize the `isCurrentMonth` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `iscurrentmonth` instead. If you accidentally passed it from a parent component, remove it from the DOM element.
+> 
+
+이 에러 메시지는 React가 DOM 요소에서 `isCurrentMonth`라는 prop을 인식하지 못한다는 것을 나타냅니다. 이런 에러는 React에서 렌더링된 DOM 요소에 알 수 없는 속성을 포함하는 것은 권장되지 않기 때문에 발생합니다.
+
+## 문제 해결 과정
+
+만약 의도적으로 커스텀 속성(custom attribute)을 DOM에 추가하려면, 소문자로 작성된 속성 이름을 사용해야 합니다.
+
+그런데 `isCurrentMonth`를 `iscurrentmonth`로 수정하자 새로운 에러가 발생했습니다.
+
+![](231212-2.png)
+
+> react-dom.development.js:86 Warning: Received `true` for a non-boolean attribute `iscurrentmonth`. 
+If you want to write it to the DOM, pass a string instead: iscurrentmonth="true" or iscurrentmonth={value.toString()}.
+> 
+
+이 에러 메시지는 React에서 브라우저 DOM에 렌더링할 때 발생하는 문제를 나타냅니다. `iscurrentmonth`라는 속성에 `true`라는 값이 전달되었는데, 이 속성은 불리언(boolean) 값이 아니라 문자열(string) 값으로 처리되어야 한다고 알려줍니다.
+
+React에서 컴포넌트 속성을 DOM 속성으로 전달할 때, 일부 속성은 불리언 속성으로 간주되어야 합니다. 이는 해당 속성이 존재하면 `true`, 존재하지 않으면 `false`로 간주되는 속성들을 의미합니다. 그러나 불리언 속성이 아닌 경우, 문자열로 전달해야 합니다.
+
+```jsx
+const Container = styled.div<{ iscurrentmonth: string }>`
+  color: ${({ isCurrentMonth }) => (isCurrentMonth ? '#000' : '#ccc')};
+`
+
+const Component = ({ isCurrentMonth }: { isCurrentMonth: boolean }) => {
+	return (
+ 		<Container iscurrentmonth={String(isCurrentMonth)}>
+			...
+		</Container>
+	)
+}
+```
+
+이렇게 처리하면 해당 경고가 해결될 것입니다. 그러나 `isCurrentMonth` prop은 커스텀 속성이 아닌 스타일링을 위한 prop이었기 때문에 아래 경고 메시지에서 안내하는 방법을 사용했습니다.
+
+경고 메시지에 나온 대로 `iscurrentmonth`을 문자열로 처리하면 해당 경고가 해결됩니다. 그러나 `isCurrentMonth`은 스타일을 지정하는 용도의 prop이기 때문에, styled-components에서 안내한 방법을 사용하는 것이 적절하다고 판단했습니다.
+
+![](231212-3.png)
+
+> styled-components: it looks like an unknown prop "iscurrentmonth" is being sent through to the DOM, which will likely trigger a React console error. If you would like automatic filtering of unknown props, you can opt-into that behavior via `<StyleSheetManager shouldForwardProp={...}>` (connect an API like `@emotion/is-prop-valid`) or consider using transient props (`$` prefix for automatic filtering.)
+> 
+
+이 경고 메시지는 `styled-components` 라이브러리에서 스타일드 컴포넌트에 전달된 속성 중에서 React가 인식할 수 없는 속성이 있다는 것을 나타냅니다.
+
+위 메시지에서는 두 가지 방법을 제시하고 있습니다.
+
+1. `StyleSheetManager` 사용하기
+2. `Transient props` 사용하기
+
+## 문제 해결
+
+저는 두 가지 방법 중 [Transient props](https://styled-components.com/docs/api#transient-props)를 사용하는 방법을 택했습니다. Transient props란 스타일드 컴포넌트에서 사용해야 하는 prop이 기본 React 노드로 전달되거나 DOM 요소로 렌더링되지 않도록 하기 위해 prop 이름 앞에 `$` 기호를 붙여 일시적인 prop으로 만드는 방법입니다.
+
+```jsx
+const Container = styled.div<{ $isCurrentMonth: boolean }>`
+  color: ${({ $isCurrentMonth }) => ($isCurrentMonth ? '#000' : '#ccc')};
+`
+
+const Component = ({ isCurrentMonth }: { isCurrentMonth: boolean }) => {
+	return (
+		<Container $isCurrentMonth={isCurrentMonth}>
+			...
+		</Container>
+	)
+}
+```
