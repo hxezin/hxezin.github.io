@@ -1,0 +1,164 @@
+---
+title: 'Next.js와 Tailwind CSS로 다크 모드 구현하기'
+description: 'Next.js 블로그에 Tailwind CSS를 사용하여 다크 모드를 구현했습니다.'
+date: '2023-11-1'
+category: '개발'
+tags: ['Next.js', 'Tailwind CSS']
+---
+
+`next-theme` 라이브러리를 사용하면 쉽게 다크모드를 구현할 수 있지만, 직접 로직을 구현해보고자 했습니다.
+
+## Tailwind 설정하기
+
+먼저 **tailwind.config.js**에 `darkMode` 옵션을 추가합니다.
+
+```jsx
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: 'class',
+  // ...
+}
+```
+
+이렇게 하면 `html` 요소에 `dark` 클래스가 있을 때 다크 모드가 적용됩니다.
+
+```html
+<!-- Dark mode not enabled -->
+<html>
+<body>
+  <!-- Will be white -->
+  <div class="bg-white dark:bg-black">
+    <!-- ... -->
+  </div>
+</body>
+</html>
+
+<!-- Dark mode enabled -->
+<html class="dark">
+<body>
+  <!-- Will be black -->
+  <div class="bg-white dark:bg-black">
+    <!-- ... -->
+  </div>
+</body>
+</html>
+```
+
+### CSS 변수 설정
+
+Tailwind CSS는 **className**에 `dark:{class}` 형식으로 작성하면 간단하게 다크 모드를 적용할 수 있지만, 중복으로 사용되는 색상이 많고 테마별로 클래스를 지정하니 코드가 길어지는 것 같아서 CSS 변수를 사용했습니다.
+
+```css
+// global.css
+
+@layer base {
+  :root {
+    --accent-color-01: #6366f1;
+    --background-color-primary: #fff;
+    --background-color-secondary: #f3f4f6;
+    --border-color-gray: #e5e7eb;
+    --color-primary: #111827;
+    --color-secondary: #a3a3a3;
+    --color-contrast: #f3f4f6;
+  }
+
+  .dark {
+    --accent-color-01: #a5b4fc;
+    --background-color-primary: #202225;
+    --background-color-secondary: #40444b;
+    --border-color-gray: #4b5563;
+    --color-primary: #f3f4f6;
+    --color-secondary: #9ca3af;
+    --color-contrast: #111827;
+  }
+...
+```
+
+```jsx
+// tailwind.config.js
+
+module.exports = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      backgroundColor: {
+        primary: 'var(--background-color-primary)',
+        secondary: 'var(--background-color-secondary)',
+      },
+      textColor: {
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        accent: 'var(--accent-color-01)',
+        contrast: 'var(--color-contrast)',
+      },
+      borderColor: {
+        primary: 'var(--border-color-gray)',
+      },
+	...
+```
+
+## 구현하기
+
+먼저 **react-icons** 라이브러리를 사용하여 버튼을 추가했습니다. 그리고 버튼 클릭 시 **localStorage**에 테마에 대한 정보를 저장하고, `html` 요소에 `dark` 클래스를 토글링되도록 클릭 이벤트 함수를 만들었습니다.
+
+```jsx
+import { BiSolidSun, BiSolidMoon } from 'react-icons/bi';
+
+const toggleTheme = () => {
+  localStorage.theme = localStorage.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.classList.toggle('dark');
+};
+
+<button onClick={toggleTheme}>
+  <BiSolidSun className='hidden dark:block' />
+  <BiSolidMoon className='dark:hidden' />
+</button>
+```
+
+그리고 처음 페이지 마운트 시 설정된 테마를 적용하도록 **localStorage**를 사용하였습니다.
+
+```jsx
+useEffect(() => {
+	if(localStorage.theme === 'dark'){
+		document.documentElement.classList.add('dark');
+	}else{
+		document.documentElement.classList.remove('dark');
+	}
+}, [])
+```
+
+### 💡 깜빡임 문제
+
+이렇게 하면 잘 적용되는 거 같았으나, 테마를 변경한 후 새로고침을 하면 깜빡이는 현상이 발생했습니다. 이유는 컴포넌트가 렌더링된 후 **localStorage**에서 `theme`을 가져오기 때문에, 먼저 초기 테마가 적용되고 그 다음 localStorage에 저장한 테마가 적용되는 것이었습니다.
+
+이 문제를 해결하기 위해서는 초기 렌더링 시에 클라이언트 측 설정을 초기화해야 했습니다. **layout.tsx**에서 `<script>` 태그를 사용하여 `dangerouslySetInnerHTML` prop을 통해 문자열을 삽입했습니다. 이렇게 하면 초기 렌더링될 때 JavaScript 코드가 실행되며, 테마 설정을 초기화할 수 있습니다.
+
+`setTheme`에 사용한 코드는 [Tailwind CSS 공식 문서](https://tailwindcss.com/docs/dark-mode#supporting-system-preference-and-manual-selection)를 참고했습니다.
+
+```tsx
+// layout.tsx
+
+const setTheme = `
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
+      `;
+
+return (
+  <html>
+    <body>
+      ...
+      <script dangerouslySetInnerHTML={{ __html: setTheme }} />
+    </body>
+  </html>
+);
+```
+
+## ✨완성✨
+![](231101.gif)
+
+## 참고 자료
+
+- [Dark Mode - Tailwind CSS](https://tailwindcss.com/docs/dark-mode)
