@@ -8,7 +8,7 @@ interface Props {
 
 function PostsGrid({ posts }: Props) {
   return (
-    <ul className='grid grid-cols-1 content-center gap-7 w-full'>
+    <ul className='grid grid-cols-1 content-start gap-7 w-full'>
       {posts.map((post, index) => (
         <Fragment key={post.slug}>
           {index === 0 && <div className='border-t border-primary'></div>}
