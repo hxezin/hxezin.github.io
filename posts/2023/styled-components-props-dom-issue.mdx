@@ -3,7 +3,9 @@ title: '스타일드 컴포넌트로 props 전달 시 DOM 요소로 전달되는
 description: '스타일드 컴포넌트로 props를 전달할 때 DOM 요소로 전달되는 문제를 해결합니다.'
 date: '2023-12-12'
 category: '개발'
-tags: ['React', 'styled-components']
+tags:
+  - 'React'
+  - 'styled-components'
 ---
 
 ## 문제 발생
@@ -40,9 +42,7 @@ styled-components로 생성한 컴포넌트에 boolean 타입의 prop을 전달�
 
 ![](231212-2.png)
 
-> react-dom.development.js:86 Warning: Received `true` for a non-boolean attribute `iscurrentmonth`. 
-If you want to write it to the DOM, pass a string instead: iscurrentmonth="true" or iscurrentmonth={value.toString()}.
-> 
+
 
 이 에러 메시지는 React에서 브라우저 DOM에 렌더링할 때 발생하는 문제를 나타냅니다. `iscurrentmonth`라는 속성에 `true`라는 값이 전달되었는데, 이 속성은 불리언(boolean) 값이 아니라 문자열(string) 값으로 처리되어야 한다고 알려줍니다.
 
