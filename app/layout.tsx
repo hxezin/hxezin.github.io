@@ -11,15 +11,17 @@ export default function RootLayout({
 }) {
   const setTheme = `
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark')
+          document.documentElement.classList.add('dark');
+          document.body.dataset.theme = 'dark';
         } else {
-          document.documentElement.classList.remove('dark')
+          document.documentElement.classList.remove('dark');
+          document.body.dataset.theme = 'light';
         }
       `;
 
   return (
     <html lang='en' suppressHydrationWarning>
-      <body>
+      <body suppressHydrationWarning>
         <AnalyticsProvider>
           <div className='wrapper h-auto min-h-full pb-28 max-w-4xl mx-auto px-4'>
             <Header />

@@ -24,6 +24,7 @@ function ThemeButton() {
 
     localStorage.theme = otherTheme;
     document.documentElement.classList.toggle('dark');
+    document.body.dataset.theme = otherTheme;
     window.dispatchEvent(new StorageEvent('storage', { key: otherTheme }));
   };
 
