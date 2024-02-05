@@ -1,9 +1,9 @@
 import PostItem from '@/_components/blog/PostItem';
-import { Post } from '@/_type/post';
+import { Meta } from '@/_type/post';
 import { Fragment } from 'react';
 
 interface Props {
-  posts: Post[];
+  posts: Meta[];
 }
 
 function PostsGrid({ posts }: Props) {

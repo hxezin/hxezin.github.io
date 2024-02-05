@@ -1,63 +1,58 @@
 import fs from 'fs';
 import path from 'path';
-import { sync } from 'glob';
-import matter from 'gray-matter';
-import { notFound } from 'next/navigation';
 import readingTime from 'reading-time';
+import { Meta, Post } from '@/_type/post';
+import matter from 'gray-matter';
+import { cache } from 'react';
 
 const POSTS_PATH = path.join(process.cwd(), 'posts');
 
-export function getPostFiles() {
-  const files = sync(`${POSTS_PATH}/**/*.md`);
-  return files.map((file) => {
-    const path = file.split('/');
-    return {
-      year: path.at(-2) || '',
-      slug: path.at(-1)!.replace(/\.md$/, '') || '',
-    };
-  });
-}
+export async function getPostBySlug(year: string, file: string): Promise<Post> {
+  const slug = [year, file].join('/').replace(/\.mdx$/, '');
+  const filePath = path.join(POSTS_PATH, `${slug}.mdx`);
 
-export function getPostData(year: string, slug: string) {
-  const postSlug = [year, slug].join('/');
-
-  const filePath = path.join(POSTS_PATH, `${postSlug}.md`);
-
-  if (!fs.existsSync(filePath)) {
-    notFound();
-  }
-
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
+  const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
 
   const { data, content } = matter(fileContent);
   const { title, description, date, category, tags } = data;
 
-  const postData = {
-    slug: postSlug,
+  const meta = {
+    slug,
     title,
     description,
     date,
     category,
     tags,
-    content: content,
     readingTime: Math.ceil(readingTime(content).minutes),
   };
 
-  return postData;
+  return { meta, content };
 }
 
-export function getAllPosts() {
-  const postFiles = getPostFiles();
+export const getAllPostsMeta = cache(async (): Promise<Meta[]> => {
+  const yearDirectories = fs.readdirSync(POSTS_PATH);
 
-  const allPosts = postFiles.map((file) => {
-    const { year, slug } = file;
+  const posts = await Promise.all(
+    yearDirectories.flatMap(async (year) => {
+      const yearPath = path.join(POSTS_PATH, year);
+      const files = fs.readdirSync(yearPath);
 
-    return getPostData(year, slug);
-  });
-
-  const sortedPosts = allPosts.sort((postA, postB) =>
-    postA.date > postB.date ? -1 : 1
+      return await Promise.all(
+        files.map(async (file) => {
+          const { meta } = await getPostBySlug(year, file);
+          return meta;
+        })
+      );
+    })
   );
 
+  const flattenedPosts = posts.flat();
+
+  const sortedPosts = flattenedPosts.sort((a, b) => (a.date > b.date ? -1 : 1));
   return sortedPosts;
+});
+
+export async function getResentPosts() {
+  const allPosts = await getAllPostsMeta();
+  return allPosts.slice(0, 5);
 }

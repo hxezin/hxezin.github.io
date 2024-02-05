@@ -1,18 +1,18 @@
-import { MetadataRoute } from 'next';
-import { getAllPosts } from '@/_helpers/post';
+import { getAllPostsMeta } from '@/_helpers/post';
 
 const URL = 'https://hxezin.github.io';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap() {
+  const posts = await getAllPostsMeta();
+
   const routes = ['', '/blog'].map((route) => ({
     url: `${URL}${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }));
 
-  const posts = getAllPosts();
-  const blogs = posts.map((post) => ({
-    url: `${URL}/blog/${post.slug}`,
-    lastModified: post.date,
+  const blogs = posts.map((meta) => ({
+    url: `${URL}/blog/${meta.slug}`,
+    lastModified: new Date(meta.date).toISOString().split('T')[0],
   }));
 
   return [...routes, ...blogs];

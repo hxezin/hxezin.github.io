@@ -1,15 +1,14 @@
 import { formattedDate } from '@/_helpers/format';
-import { Post } from '@/_type/post';
+import { Meta } from '@/_type/post';
 import Link from 'next/link';
 import { AiOutlineCalendar, AiOutlineFieldTime } from 'react-icons/ai';
 
 interface Props {
-  post: Post;
+  post: Meta;
 }
 
 function PostItem({ post }: Props) {
   const { title, description, date, slug, readingTime } = post;
-
   const linkPath = `/blog/${slug}`;
 
   return (

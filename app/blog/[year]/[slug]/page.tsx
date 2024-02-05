@@ -1,22 +1,10 @@
 import type { Metadata } from 'next';
-import { getPostData, getPostFiles } from '@/_helpers/post';
+import { getAllPostsMeta, getPostBySlug } from '@/_helpers/post';
 import PostHeader from '@/_components/blog/PostHeader';
 import PostContent from '@/_components/blog/PostContent';
 import Comments from '@/_components/blog/Comments';
 import PageNavigation from '@/_components/blog/PageNavgiation';
 import TagList from '@/_components/blog/TagList';
-
-export const revalidate = 600;
-export async function generateStaticParams() {
-  const postFileNames = getPostFiles();
-
-  const slugs = postFileNames.map(({ year, slug }) => ({
-    year,
-    slug,
-  }));
-
-  return slugs;
-}
 
 interface BlogMetadata {
   params: { year: string; slug: string };
@@ -27,14 +15,14 @@ export async function generateMetadata({
 }: BlogMetadata): Promise<Metadata> {
   const { year, slug } = params;
 
-  const postData = getPostData(year, slug);
+  const postData = await getPostBySlug(year, slug);
 
   return {
-    title: postData.title,
-    description: postData.description,
+    title: postData.meta.title,
+    description: postData.meta.description,
     openGraph: {
-      title: postData.title,
-      description: postData.description,
+      title: postData.meta.title,
+      description: postData.meta.description,
     },
   };
 }
@@ -43,22 +31,15 @@ interface Props {
   params: { year: string; slug: string };
 }
 
-function PostDetail({ params }: Props) {
-  const { year, slug } = params;
-  const postData = getPostData(year, slug);
-  const { slug: yearSlug, content, tags, title, date, readingTime } = postData;
+async function PostDetail({ params }: Props) {
+  const { meta, content } = await getPostBySlug(params.year, params.slug);
 
   return (
     <section className='w-full relative md:flex gap-10'>
       <article>
-        <PostHeader
-          tags={tags}
-          title={title}
-          date={date}
-          readingTime={readingTime}
-        />
-        <PostContent slug={yearSlug} content={content} />
-        <TagList tags={tags} />
+        <PostHeader meta={meta} />
+        <PostContent slug={meta.slug} content={content} />
+        <TagList tags={meta.tags} />
         <Comments />
       </article>
       <PageNavigation />
@@ -67,3 +48,14 @@ function PostDetail({ params }: Props) {
 }
 
 export default PostDetail;
+
+export async function generateStaticParams() {
+  const allPostsMeta = await getAllPostsMeta();
+
+  const slugs = allPostsMeta.map(({ slug }) => {
+    const [year, file] = slug.split('/');
+    return { year, slug: file };
+  });
+
+  return slugs;
+}

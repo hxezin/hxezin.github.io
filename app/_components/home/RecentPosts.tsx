@@ -1,10 +1,10 @@
 import { formattedDate } from '@/_helpers/format';
-import { Post } from '@/_type/post';
+import { Meta } from '@/_type/post';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
 interface Props {
-  posts: Post[];
+  posts: Meta[];
 }
 
 function RecentPosts({ posts }: Props) {

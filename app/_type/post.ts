@@ -1,4 +1,4 @@
-export interface PostMatter {
+export interface Frontmatter {
   title: string;
   description: string;
   date: string;
@@ -6,10 +6,16 @@ export interface PostMatter {
   tags: string[];
 }
 
-export interface Post extends PostMatter {
+export interface Meta extends Frontmatter {
   slug: string;
-  content: string;
   readingTime: number;
+}
+
+export type Content = string;
+
+export interface Post {
+  meta: Meta;
+  content: Content;
 }
 
 export interface Tag {

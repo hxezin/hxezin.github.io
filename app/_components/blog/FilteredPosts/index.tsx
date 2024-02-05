@@ -1,5 +1,5 @@
 'use client';
-import { Post, Tag } from '@/_type/post';
+import { Meta, Tag } from '@/_type/post';
 import { useEffect, useState } from 'react';
 import PostsGrid from '@/_components/blog/PostsGrid';
 import Category from '@/_components/blog/FilteredPosts/Category';
@@ -7,7 +7,7 @@ import Tags from '@/_components/blog/FilteredPosts/Tags';
 import { useSearchParams } from 'next/navigation';
 
 interface Props {
-  posts: Post[];
+  posts: Meta[];
 }
 
 function FilteredPosts({ posts }: Props) {
@@ -28,20 +28,20 @@ function FilteredPosts({ posts }: Props) {
 
   const tags: Tag = {};
   posts
-    .filter((post) => {
+    .filter((meta) => {
       if (currentCategory === 'All') return true;
-      return post.category === decodedCategory;
+      return meta.category === decodedCategory;
     })
-    .forEach((post) => {
-      post.tags.forEach((tag) => {
+    .forEach((meta) => {
+      meta.tags.forEach((tag) => {
         tags[tag] = tags[tag] + 1 || 1;
       });
     });
 
-  const categorizedPosts = posts.filter((post) => {
-    if (selectedTags.every((tag) => post.tags.includes(tag))) {
+  const categorizedPosts = posts.filter((meta) => {
+    if (selectedTags.every((tag) => meta.tags.includes(tag))) {
       if (currentCategory === 'All') return true;
-      return post.category === decodedCategory;
+      return meta.category === decodedCategory;
     }
   });
 
