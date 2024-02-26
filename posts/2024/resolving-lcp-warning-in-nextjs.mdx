@@ -1,0 +1,76 @@
+---
+title: 'Next.js에서 Largest Contentful Paint(LCP) 경고 해결하기'
+description: 'Next.js에서 발생한 Largest Contentful Paint(LCP) 경고를 해결하여 웹 성능을 향상시킵니다.'
+date: '2024-02-26'
+category: '개발'
+tags: 
+  - 'Next.js'
+---
+
+
+## 문제 발생
+
+![](240226.png)
+
+![](240226-2.png)
+
+> Image with src "/images/site/profile.png" was detected as the Largest Contentful Paint (LCP). Please add the "priority" property if this image is above the fold.
+> Read more: [https://nextjs.org/docs/api-reference/next/image#priority](https://nextjs.org/docs/api-reference/next/image#priority)
+> 
+
+블로그 메인 페이지에 있는 프로필 이미지때문에 콘솔 로그에 경고가 발생한 것을 확인했습니다.
+
+이 경고는 웹 페이지의 성능 최적화와 관련된 것으로, **Largest Contentful Paint(LCP)** 에 대한 것입니다. LCP는 사용자가 웹 페이지를 로딩할 때 가장 큰 콘텐츠 요소가 표시되는 시간을 나타냅니다. 이러한 경고는 해당 페이지에서 LCP로 식별된 이미지가 화면의 가장 중요한 부분인 _‘above the fold(웹 페이지를 열었을 때 화면에 처음으로 보이는 영역)’_ 에 위치하지만 해당 이미지에 `priority` 속성이 지정되지 않았을 때 발생합니다.
+
+### LCP
+
+LCP는 웹 페이지의 성능을 측정하는 핵심 지표 중 하나로, 사용자가 페이지를 로딩할 때 화면에 표시되는 가장 큰 콘텐츠 요소가 얼마나 빨리 렌더링되는지를 나타냅니다. 이 지표는 사용자가 페이지를 실제로 볼 수 있게 되는 시점을 측정하여 웹 페이지의 "로딩 속도"와 사용자 경험에 큰 영향을 미칩니다.
+
+LCP가 중요한 이유는 다음과 같습니다.
+
+1. **사용자 경험 향상**
+
+    LCP는 사용자가 웹 페이지에서 가장 중요하게 여기는 콘텐츠가 얼마나 빨리 나타나는지를 측정합니다. 빠른 페이지 로딩은 사용자 경험을 향상시킵니다.
+
+2. **검색 엔진 최적화 (SEO)**
+    
+    Google은 페이지 속도를 검색 순위에 고려하며, 빠른 페이지 로딩은 검색 엔진 순위 향상에 도움을 줄 수 있습니다.
+
+3. **이탈률 감소**
+
+    느린 페이지 로딩으로 인해 사용자의 페이지 이탈률이 증가할 수 있습니다.
+
+4. **모바일 사용자 고려**
+
+    모바일 사용자들은 느린 네트워크 연결 또는 제한된 대역폭을 가질 수 있습니다. 빠른 LCP는 모바일 사용자에게 특히 중요합니다.
+
+`LCP`는 웹 페이지의 성능을 평가하고 사용자 경험을 개선하는 데 매우 중요한 지표로 간주됩니다. 페이지를 로딩할 때 LCP를 개선하는 것은 사용자에게 빠르고 효과적인 웹 경험을 제공하는 데 기여합니다.
+
+
+### priority
+
+`priority` 속성은 `false` 또는 `true` 값으로 설정할 수 있습니다. `true`로 설정하면 이미지가 높은 우선 순위로 간주되어 preload되며, 해당 이미지에 대해 자동으로 지연 로딩이 비활성화됩니다.
+
+이 속성은 일반적으로 LCP 요소로 감지된 이미지에 사용됩니다. 다양한 뷰포트 크기에 대해 서로 다른 이미지가 LCP 요소가 될 수 있기 때문에 여러 우선 순위 이미지를 가질 수 있습니다.
+
+이 속성은 일반적으로 화면 상단에 표시되는 이미지에만 사용해야 하며, 기본값은 `false` 입니다. 따라서 이미지가 화면 상단에 보이지 않는 경우 `priority`를 `true`로 설정하는 것은 권장되지 않습니다.
+
+## 문제 해결
+
+이미지에 `priority` 속성을 추가하면 경고가 사라집니다.
+
+```jsx
+<Image
+  src='/images/blog/profile.webp'
+  alt='profile'
+  width={150}
+  height={150}
+  priority
+/>
+```
+
+`priority` 속성을 추가하면 Next.js는 해당 이미지를 더 높은 우선 순위로 처리하고 최적화합니다. 해당 이미지가 페이지의 중요한 부분이라면, 이를 통해 사용자 경험을 향상하고 페이지 로딩 속도를 개선할 수 있습니다.
+
+## 참고 자료
+
+- [&lt;Image&gt; | Next.js](https://nextjs.org/docs/app/api-reference/components/image#priority)
