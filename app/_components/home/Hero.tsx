@@ -3,12 +3,13 @@ import Image from 'next/image';
 function Hero() {
   return (
     <section className='w-full flex gap-5 mb-16 sm:relative left-[-15px]'>
-      <div className='hidden sm:inline-block'>
+      <div className='hidden sm:block'>
         <Image
-          src='/images/site/profile.png'
-          alt='프로필 이미지'
+          src='/images/blog/profile.webp'
+          alt='profile'
           width={150}
           height={150}
+          priority
         />
       </div>
       <div className='flex flex-col justify-center gap-2'>
