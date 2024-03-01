@@ -8,32 +8,28 @@ tags:
   - 'Vite'
 ---
 
-## 1. dependencies 설치
+CRA로 생성한 토이 프로젝트를 Vite로 전환해봤습니다. 프로젝트의 규모가 작아 크게 차이가 있을까? 싶었는데, 마이그레이션 후 빌드 시간이 향상된 것을 확인할 수 있었습니다.
+
+CRA를 사용한 빌드 시간:
+
+![](240227-3.png)
+
+Vite를 사용한 빌드 시간:
+
+![](240227-4.png)
+
+
+## 마이그레이션 과정
+
+### 1. dependencies 설치
 
 ```bash
 npm install --save-dev vite @vitejs/plugin-react vite-plugin-svgr
 ```
 
-- vite-plugin-svgr: Vite 플러그인을 사용하여 SVG를 React 컴포넌트로 변환
+- `vite-plugin-svgr`: Vite 플러그인을 사용하여 SVG를 React 컴포넌트로 변환
 
-### 🛠️ 트러블슈팅 1. 패키지 버전 충돌
-
-![](240227.png)
-
-> npm ERR! peerOptional @types/node@"^18.0.0 || >=20.0.0" from vite@5.1.4
-> 
-
-설치 명령어를 실행했을 때 에러가 발생했습니다. 에러 메시지를 살펴보니 @types/node 패키지의 버전 요구사항이 명시되어 있었습니다.
-
-여기서 `^18.0.0 || >=20.0.0`는 @types/node 패키지의 버전이 18.0.0 이상이면서 20.0.0 이상이어야 한다는 것을 의미합니다. 그런데 현재 프로젝트에서 사용 중인 버전은 `@types/node@16.18.83`로, 요구사항을 충족하지 못하고 있습니다.
-
-이 메시지를 토대로 @types/node 패키지를 업데이트하여 종속성 충돌을 해결할 수 있었습니다.
-
-```bash
-npm install @types/node@latest
-```
-
-## 2. vite.config.ts 파일 생성
+### 2. vite.config.ts 파일 생성
 
 ```ts
 import { defineConfig } from 'vite';
@@ -46,7 +42,123 @@ export default defineConfig({
 });
 ```
 
-### 🛠️ 트러블슈팅 2. SVG export 에러
+### 3. index.html 파일 이동 및 수정
+
+> Vite 프로젝트에서는 `index.html` 파일이 `public` 디렉토리에 위치하는 것이 아니라 프로젝트의 루트에 있습니다. 이는 개발 중에 Vite가 서버로 동작하며, `index.html`이 애플리케이션의 진입점이기 때문입니다.
+>
+> `index.html`은 Vite에 의해 소스 코드로 취급되며 모듈 그래프의 일부로 취급됩니다. `<script type="module" src="...">`와 같은 JavaScript 소스 코드를 참조하는 스크립트를 해결합니다. 인라인 `<script type="module">` 및 `<link href>`를 통해 참조된 CSS도 Vite 특정 기능을 활용할 수 있습니다.
+> 
+> 또한, `index.html` 내의 URL은 자동으로 다시 기준이 되어 특별한 `%PUBLIC_URL%` placeholder가 필요하지 않습니다.
+> 
+
+Vite 공식 문서의 [Getting Started](https://vitejs.dev/guide/#index-html-and-project-root)에 설명된 바에 따라 `/public`에 있는 `index.html` 파일을 프로젝트의 루트로 옮기고, index.html 파일 내의 `%PUBLIC_URL%` placeholder를 제거합니다.
+
+```html
+<!-- 전 -->
+<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+
+<!-- 후 -->
+<link rel="icon" href="/favicon.ico" />
+```
+
+그 다음 프로젝트의 진입점인 엔트리 포인트를 지정하기 위해 body에 script를 추가합니다. 
+
+```html
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+```
+
+`<script type="module" src="/src/index.tsx"></script>`라는 스크립트 태그는 Vite에게 프로젝트의 진입점인 `index.tsx` 파일을 로드하도록 지시하는 것입니다. 따라서 이 스크립트 태그는 애플리케이션의 시작점을 나타내며, Vite는 이를 기반으로 모듈을 해석하고 번들을 생성합니다.
+
+### 4. tsconfig.json 수정
+
+```json
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vite/client", "vite-plugin-svgr/client"],
+    "allowJs": false,
+    "skipLibCheck": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}
+```
+
+### 5. vite-env.d.ts 파일 생성
+
+`src` 폴더에 `vite-env.d.ts` 파일을 생성합니다.
+
+```ts
+/// <reference types="vite/client" />
+```
+
+### 6. 환경변수 수정
+
+환경변수 prefix를 `REACT_APP`에서 `VITE`로 변경합니다.
+
+```
+VITE_API_KEY=your-api-key
+VITE_ENVIRONMENT=production
+```
+
+기존의 CRA에서 `process.env`를 사용한 것과 달리, Vite는 `import.meta.env`를 사용해 환경 변수에 접근할 수 있습니다.
+
+```jsx
+const apiKey = import.meta.env.VITE_API_KEY;
+const environment = import.meta.env.VITE_ENVIRONMENT;
+```
+
+### 7. react-scripts 제거
+
+```bash
+npm uninstall react-scripts
+```
+
+`react-scripts`는 CRA 프로젝트의 개발 및 빌드 스크립트를 제공하는 패키지이기 때문에 Vite에서는 필요하지 않습니다. Vite는 자체 개발 서버와 빌드 시스템을 사용하므로 `react-scripts`에 의존할 필요가 없습니다.
+
+`react-app-env.d.ts` 파일은 CRA 프로젝트에서 TypeScript를 사용할 때, TypeScript에게 프로젝트의 환경과 관련된 타입 정보를 제공하는 역할을 하므로 이 파일도 Vite로 전환하면서 제거해도 무방합니다.
+
+### 8. package.json script 수정
+
+```json
+"scripts": {
+  "dev": "vite",
+  "build": "tsc && vite build",
+  "preview": "vite preview"
+},
+```
+
+## 🛠️ 트러블슈팅
+
+### 패키지 버전 충돌
+
+![](240227.png)
+
+`npm install`을 실행했을 때 에러가 발생했습니다. 에러 메시지를 살펴보니 @types/node 패키지의 버전 요구사항이 명시되어 있었습니다.
+
+여기서 `^18.0.0 || >=20.0.0`는 @types/node 패키지의 버전이 18.0.0 이상 또는 20.0.0 이상이어야 한다는 것을 의미합니다. 그런데 현재 프로젝트에서 사용 중인 버전은 `@types/node@16.18.83`로, 요구사항을 충족하지 못하고 있습니다.
+
+이 메시지를 토대로 @types/node 패키지를 업데이트하여 종속성 충돌을 해결할 수 있었습니다.
+
+```bash
+npm install @types/node@latest
+```
+
+### SVG export 에러
 
 ![](240227-2.png)
 
@@ -82,7 +194,7 @@ export default defineConfig({
 })
 ```
 
-### 🛠️ 트러블슈팅 3. TypeScript에서 SVG 파일 처리
+### TypeScript에서 SVG 파일 처리
 
 그런데 `ReactComponent`를 사용하여 import한 코드에서 에러가 발생했습니다.
 
@@ -93,9 +205,9 @@ import { ReactComponent as AddSVG } from 'assets/icons/add.svg';
 > Module '".svg"' has no exported member 'ReactComponent'. Did you mean to use 'import ReactComponent from ".svg"' instead?
 > 
 
-[StackOverflow](https://stackoverflow.com/a/54122106/19826313)에서 해결 방법을 찾을 수 있었습니다. SVG 파일을 React 컴포넌트로 import할 때, 일반적으로 SVG 파일 내부에는 `ReactComponent`와 관련된 타입이 없습니다. 따라서 타입 정의 파일(`.d.ts`)을 사용하여 TypeScript에게 SVG 파일을 React 컴포넌트로 다루도록 알려줘야 합니다.
+[StackOverflow](https://stackoverflow.com/a/54122106/19826313)에서 해결 방법을 찾을 수 있었습니다. SVG 파일을 React 컴포넌트로 사용할 때, TypeScript에서 해당 SVG 모듈이 React 컴포넌트임을 명시해주지 않으면 TypeScript 컴파일러가 해당 모듈에서 `ReactComponent`를 찾을 수 없다는 에러가 발생합니다.
 
-먼저 `svg.d.ts` 파일에 다음 코드를 작성합니다.
+먼저 `svg.d.ts` 파일을 생성하고 아래 코드를 추가하여 TypeScript에게 SVG 파일이 React 컴포넌트임을 알려줍니다.
 
 ```ts
 declare module '*.svg' {
@@ -106,8 +218,6 @@ declare module '*.svg' {
 }
 ```
 
-위 코드에서 `*.svg` 파일에 대한 타입 정의를 선언하고 있습니다. 이렇게 선언된 타입은 해당 SVG 파일에서 `ReactComponent`를 내보내도록 정의하고 있습니다.
-
 그 다음 `tsconfig.json` 파일의 include에 `svg.d.ts`를 추가합니다.
 
 ```json
@@ -116,107 +226,7 @@ declare module '*.svg' {
 
 이렇게 하면 TypeScript 컴파일러가 해당 디렉토리에 있는 타입 정의 파일을 찾아 해당 타입 정의를 사용할 수 있게 됩니다.
 
-## 3. index.html 파일 이동 및 수정
-
-> Vite 프로젝트에서는 `index.html` 파일이 `public` 디렉토리에 위치하는 것이 아니라 프로젝트의 루트에 있습니다. 이는 개발 중에 Vite가 서버로 동작하며, `index.html`이 애플리케이션의 진입점이기 때문입니다.
->
-> `index.html`은 Vite에 의해 소스 코드로 취급되며 모듈 그래프의 일부로 취급됩니다. `<script type="module" src="...">`와 같은 JavaScript 소스 코드를 참조하는 스크립트를 해결합니다. 인라인 `<script type="module">` 및 `<link href>`를 통해 참조된 CSS도 Vite 특정 기능을 활용할 수 있습니다.
-> 
-> 또한, `index.html` 내의 URL은 자동으로 다시 기준이 되어 특별한 `%PUBLIC_URL%` placeholder가 필요하지 않습니다.
-> 
-
-Vite 공식 문서의 [Getting Started](https://vitejs.dev/guide/#index-html-and-project-root)에 설명된 바에 따라 `/public`에 있는 `index.html` 파일을 프로젝트의 루트로 옮기고, index.html 파일 내의 `%PUBLIC_URL%` placeholder를 제거합니다.
-
-```html
-<!-- 전 -->
-<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-
-<!-- 후 -->
-<link rel="icon" href="/favicon.ico" />
-```
-
-그 다음 프로젝트의 진입점인 엔트리 포인트를 지정하기 위해 body에 script를 추가합니다. 
-
-```html
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/index.tsx"></script>
-</body>
-```
-
-`<script type="module" src="/src/index.tsx"></script>`라는 스크립트 태그는 Vite에게 프로젝트의 진입점인 `index.tsx` 파일을 로드하도록 지시하는 것입니다. 따라서 이 스크립트 태그는 애플리케이션의 시작점을 나타내며, Vite는 이를 기반으로 모듈을 해석하고 번들을 생성합니다.
-
-## 4. tsconfig.json 수정
-
-```json
-{
-  "compilerOptions": {
-    "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client", "vite-plugin-svgr/client"],
-    "allowJs": false,
-    "skipLibCheck": false,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
-  },
-  "include": ["src"]
-}
-```
-
-## 5. vite-env.d.ts 파일 생성
-
-`src` 폴더에 `vite-env.d.ts` 파일을 생성합니다.
-
-```ts
-/// <reference types="vite/client" />
-```
-
-## 6. 환경변수 수정
-
-환경변수 prefix를 `REACT_APP`에서 `VITE`로 변경합니다.
-
-```
-VITE_API_KEY=your-api-key
-VITE_ENVIRONMENT=production
-```
-
-기존의 CRA에서 `process.env`를 사용한 것과 달리, Vite는 `import.meta.env`를 사용해 환경 변수에 접근할 수 있습니다.
-
-```jsx
-const apiKey = import.meta.env.VITE_API_KEY;
-const environment = import.meta.env.VITE_ENVIRONMENT;
-```
-
-## 7. react-scripts 제거
-
-```bash
-npm uninstall react-scripts
-```
-
-`react-scripts`는 CRA 프로젝트의 개발 및 빌드 스크립트를 제공하는 패키지이기 때문에 Vite에서는 필요하지 않습니다. Vite는 자체 개발 서버와 빌드 시스템을 사용하므로 `react-scripts`에 의존할 필요가 없습니다.
-
-`react-app-env.d.ts` 파일은 CRA 프로젝트에서 TypeScript를 사용할 때, TypeScript에게 프로젝트의 환경과 관련된 타입 정보를 제공하는 역할을 하므로 이 파일도 Vite로 전환하면서 제거해도 무방합니다.
-
-## 8. package.json script 수정
-
-```json
-"scripts": {
-  "dev": "vite",
-  "build": "tsc && vite build",
-  "preview": "vite preview"
-},
-```
-
-### 🛠️ 트러블슈팅 4. Vite CJS Node API 사용 중단
+### Vite CJS Node API 사용 중단
 
 `npm run dev` 실행 시 개발 서버는 잘 시작되지만 아래와 같은 경고 메시지가 나왔습니다.
 
@@ -231,6 +241,6 @@ npm uninstall react-scripts
 
 만약 TypeScript를 사용하는 경우에도 `.ts` 파일은 ESM으로 처리됩니다. 단, `tsconfig.json`의 `"module"` 설정이 `"ESNext"` 또는 `"ES6"`로 되어 있어야 합니다.
 
-이후 경고 메시지 없이 개발 서버가 시작되는 것을 확인할 수 있었습니다.
+이후 경고 메시지 없이 개발 서버가 실행되는 것을 확인할 수 있었습니다.
 
 ![](240227-5.png)
