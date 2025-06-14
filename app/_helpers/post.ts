@@ -30,26 +30,20 @@ export async function getPostBySlug(year: string, file: string): Promise<Post> {
 }
 
 export const getAllPostsMeta = cache(async (): Promise<Meta[]> => {
-  const yearDirectories = fs.readdirSync(POSTS_PATH);
+  const years = fs.readdirSync(POSTS_PATH);
+  const metas: Meta[] = [];
 
-  const posts = await Promise.all(
-    yearDirectories.flatMap(async (year) => {
-      const yearPath = path.join(POSTS_PATH, year);
-      const files = fs.readdirSync(yearPath);
+  for (const year of years) {
+    const yearPath = path.join(POSTS_PATH, year);
+    const files = fs.readdirSync(yearPath);
 
-      return await Promise.all(
-        files.map(async (file) => {
-          const { meta } = await getPostBySlug(year, file);
-          return meta;
-        })
-      );
-    })
-  );
+    for (const file of files) {
+      const { meta } = await getPostBySlug(year, file);
+      metas.push(meta);
+    }
+  }
 
-  const flattenedPosts = posts.flat();
-
-  const sortedPosts = flattenedPosts.sort((a, b) => (a.date > b.date ? -1 : 1));
-  return sortedPosts;
+  return metas.sort((a, b) => (a.date < b.date ? 1 : -1));
 });
 
 export async function getResentPosts() {
