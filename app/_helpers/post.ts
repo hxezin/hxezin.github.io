@@ -11,7 +11,7 @@ export async function getPostBySlug(year: string, file: string): Promise<Post> {
   const slug = [year, file].join('/').replace(/\.mdx$/, '');
   const filePath = path.join(POSTS_PATH, `${slug}.mdx`);
 
-  const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
+  const fileContent = await fs.promises.readFile(filePath, 'utf8');
 
   const { data, content } = matter(fileContent);
   const { title, description, date, category, tags } = data;
@@ -30,12 +30,12 @@ export async function getPostBySlug(year: string, file: string): Promise<Post> {
 }
 
 export const getAllPostsMeta = cache(async (): Promise<Meta[]> => {
-  const years = fs.readdirSync(POSTS_PATH);
+  const years = await fs.promises.readdir(POSTS_PATH);
   const metas: Meta[] = [];
 
   for (const year of years) {
     const yearPath = path.join(POSTS_PATH, year);
-    const files = fs.readdirSync(yearPath);
+    const files = await fs.promises.readdir(yearPath);
 
     for (const file of files) {
       const { meta } = await getPostBySlug(year, file);
