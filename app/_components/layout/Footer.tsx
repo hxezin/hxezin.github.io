@@ -15,7 +15,9 @@ function Footer() {
             );
           })}
         </ul>
-        <div className='text-sm'>© 2023 hxezin </div>
+        <div className='text-sm'>
+          © {new Date().getFullYear()} hxezin — Keep building, keep learning.
+        </div>
       </div>
     </footer>
   );
