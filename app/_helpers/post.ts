@@ -46,7 +46,7 @@ export const getAllPostsMeta = cache(async (): Promise<Meta[]> => {
   return metas.sort((a, b) => (a.date < b.date ? 1 : -1));
 });
 
-export async function getResentPosts() {
+export async function getRecentPosts() {
   const allPosts = await getAllPostsMeta();
   return allPosts.slice(0, 5);
 }
