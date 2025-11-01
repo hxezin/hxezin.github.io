@@ -5,13 +5,19 @@ const ScrollToTop = () => {
   const [showTopBtn, setShowTopBtn] = useState(false);
 
   useEffect(() => {
-    window.addEventListener('scroll', () => {
+    const handleScroll = () => {
       if (window.scrollY > 400) {
         setShowTopBtn(true);
       } else {
         setShowTopBtn(false);
       }
-    });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
   const goToTop = () => {
     window.scrollTo({
