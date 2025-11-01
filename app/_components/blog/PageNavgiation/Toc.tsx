@@ -44,6 +44,11 @@ function Toc() {
               className={`block leading-[1.6] hover:text-primary ${
                 heading.nodeName !== 'H2' && 'pl-3'
               } ${currentId === heading.id ? 'text-accent' : 'text-secondary'}`}
+              onClick={(e) => {
+                e.preventDefault();
+                const element = document.getElementById(heading.id);
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               {heading.textContent}
             </a>
