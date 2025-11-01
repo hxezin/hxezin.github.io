@@ -31,9 +31,7 @@ export const mdxComponents = (slug: string) => {
           </div>
         );
       }
-      return (
-        <p className='text-primary before:content-none'>{props.children}</p>
-      );
+      return <p className='text-primary before:content-none'>{props.children}</p>;
     },
 
     a: ({ ...props }) => (
@@ -46,9 +44,7 @@ export const mdxComponents = (slug: string) => {
       </a>
     ),
 
-    strong: ({ ...props }) => (
-      <strong className='text-primary'>{props.children}</strong>
-    ),
+    strong: ({ ...props }) => <strong className='text-primary'>{props.children}</strong>,
 
     h2: ({ ...props }) => (
       <h2
@@ -60,16 +56,11 @@ export const mdxComponents = (slug: string) => {
     ),
 
     h3: ({ ...props }) => (
-      <h3
-        id={createHeadingId(props.children)}
-        className='mt-10 pt-8 pb-2 text-primary'
-      >
+      <h3 id={createHeadingId(props.children)} className='mt-10 pt-8 pb-2 text-primary'>
         {props.children}
       </h3>
     ),
 
-    th: ({ ...props }) => (
-      <th className='text-primary font-bold'>{props.children}</th>
-    ),
+    th: ({ ...props }) => <th className='text-primary font-bold'>{props.children}</th>,
   };
 };

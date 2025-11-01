@@ -10,9 +10,7 @@ interface BlogMetadata {
   params: { year: string; slug: string };
 }
 
-export async function generateMetadata({
-  params,
-}: BlogMetadata): Promise<Metadata> {
+export async function generateMetadata({ params }: BlogMetadata): Promise<Metadata> {
   const { year, slug } = params;
 
   const postData = await getPostBySlug(year, slug);

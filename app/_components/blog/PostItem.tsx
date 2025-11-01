@@ -17,9 +17,7 @@ function PostItem({ post }: Props) {
         <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0] group-hover:shadow-indigo-200 dark:group-hover:shadow-indigo-700 transition-color duration-200'>
           {title}
         </h3>
-        <p className='leading-6 line-clamp-2 text-neutral-500 text-sm my-2'>
-          {description}
-        </p>
+        <p className='leading-6 line-clamp-2 text-neutral-500 text-sm my-2'>{description}</p>
         <div className='flex items-center text-neutral-400 text-sm'>
           <time className='flex items-center gap-1'>
             <AiOutlineCalendar className='text-base' /> {formattedDate(date)}

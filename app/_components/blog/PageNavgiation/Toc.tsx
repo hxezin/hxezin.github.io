@@ -35,9 +35,7 @@ function Toc() {
 
   return (
     <>
-      <div className='text-primary mb-1 mt-10 text-sm font-medium'>
-        On this page
-      </div>
+      <div className='text-primary mb-1 mt-10 text-sm font-medium'>On this page</div>
       <ul className='space-y-2.5 overflow-y-auto py-2 text-sm max-h-[70vh]'>
         {headingEls.map((heading, idx) => (
           <li key={idx} data-depth={heading.nodeName === 'H2' ? '1' : '2'}>

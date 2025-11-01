@@ -16,8 +16,7 @@ function PostHeader({ meta }: Props) {
         </time>
         <span className='px-2'>·</span>
         <div className='flex items-center gap-1'>
-          <AiOutlineFieldTime className='text-base' /> {meta.readingTime} min
-          read
+          <AiOutlineFieldTime className='text-base' /> {meta.readingTime} min read
         </div>
       </div>
     </header>

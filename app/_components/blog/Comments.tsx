@@ -31,9 +31,7 @@ export default function Comments() {
   }, []);
 
   const changeGiscusTheme = (theme: string) => {
-    const iframe = document.querySelector<HTMLIFrameElement>(
-      'iframe.giscus-frame'
-    );
+    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
     iframe?.contentWindow?.postMessage(
       {
         giscus: {

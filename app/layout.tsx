@@ -4,11 +4,7 @@ import type { Metadata } from 'next';
 import Footer from '@/_components/layout/Footer';
 import AnalyticsProvider from '@/_components/AnalyticsProvider';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const setTheme = `
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');

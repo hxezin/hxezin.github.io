@@ -1,9 +1,9 @@
-import { Tag } from '@/_type/post'
+import { Tag } from '@/_type/post';
 
 interface Props {
-  tags: Tag
-  isSelected: (tag: string) => boolean
-  onClick: (tag: string) => void
+  tags: Tag;
+  isSelected: (tag: string) => boolean;
+  onClick: (tag: string) => void;
 }
 
 function Tags({ tags, isSelected, onClick }: Props) {
@@ -24,11 +24,11 @@ function Tags({ tags, isSelected, onClick }: Props) {
             >
               {key} ({value})
             </li>
-          )
+          );
         })}
       </ul>
     </div>
-  )
+  );
 }
 
-export default Tags
+export default Tags;

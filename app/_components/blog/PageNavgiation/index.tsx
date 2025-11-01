@@ -11,11 +11,7 @@ function PageNavigation() {
       <div className='mt-3 border-t border-neutral-200 pt-5'></div>
       <div
         className='page-navigation-button'
-        onClick={() =>
-          document
-            .querySelector('.giscus')
-            ?.scrollIntoView({ behavior: 'smooth' })
-        }
+        onClick={() => document.querySelector('.giscus')?.scrollIntoView({ behavior: 'smooth' })}
       >
         <span>Add a comment</span>
         <LiaCommentDotsSolid />

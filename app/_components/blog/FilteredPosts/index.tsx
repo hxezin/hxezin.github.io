@@ -65,10 +65,7 @@ function FilteredPosts({ posts }: Props) {
           <span className='text-5xl font-semibold mb-2'>{decodedCategory}</span>
           <span className='font-medium'>{categorizedPosts.length} posts</span>
         </div>
-        <Category
-          currentCategory={currentCategory}
-          onClick={handleCategoryClick}
-        />
+        <Category currentCategory={currentCategory} onClick={handleCategoryClick} />
       </div>
       <div className='flex gap-14'>
         <PostsGrid posts={categorizedPosts} />
