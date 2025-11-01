@@ -33,14 +33,16 @@ async function PostDetail({ params }: Props) {
   const { meta, content } = await getPostBySlug(params.year, params.slug);
 
   return (
-    <section className='w-full relative md:flex gap-10'>
-      <article>
+    <section className='w-full relative'>
+      <article className='mx-auto max-w-4xl'>
         <PostHeader meta={meta} />
         <PostContent slug={meta.slug} content={content} />
         <TagList tags={meta.tags} />
         <Comments />
       </article>
-      <PageNavigation />
+      <div className='hidden xl:block fixed right-[max(1rem,calc((100%-896px)/2-208px-2.5rem))] top-24 w-52 max-h-[calc(100vh-6rem)] overflow-y-auto'>
+        <PageNavigation />
+      </div>
     </section>
   );
 }

@@ -6,7 +6,7 @@ import { LiaCommentDotsSolid } from 'react-icons/lia';
 
 function PageNavigation() {
   return (
-    <nav className='hidden md:block sticky top-0 self-start w-52'>
+    <nav>
       <Toc />
       <div className='mt-3 border-t border-neutral-200 pt-5'></div>
       <div
