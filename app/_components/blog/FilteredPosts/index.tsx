@@ -67,9 +67,13 @@ function FilteredPosts({ posts }: Props) {
         </div>
         <Category currentCategory={currentCategory} onClick={handleCategoryClick} />
       </div>
-      <div className='flex gap-14'>
-        <PostsGrid posts={categorizedPosts} />
-        <Tags tags={tags} isSelected={isSelected} onClick={handleTagClick} />
+      <div className='relative'>
+        <div className='mx-auto max-w-4xl'>
+          <PostsGrid posts={categorizedPosts} />
+        </div>
+        <div className='hidden xl:block fixed right-[max(1rem,calc((100%-896px)/2-208px-2.5rem))] top-80 w-52'>
+          <Tags tags={tags} isSelected={isSelected} onClick={handleTagClick} />
+        </div>
       </div>
     </>
   );

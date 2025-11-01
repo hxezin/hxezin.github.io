@@ -8,9 +8,9 @@ interface Props {
 
 function Tags({ tags, isSelected, onClick }: Props) {
   return (
-    <div className='hidden md:block w-52 text-sm'>
+    <div className='text-sm'>
       <p className='text-accent font-bold text-base mb-2 px-2'>태그</p>
-      <ul className='flex flex-col gap-4 overflow-y-auto py-2 max-h-[70vh] text-sm'>
+      <ul className='flex flex-col gap-4 overflow-y-auto py-2 max-h-[calc(100vh-20rem)] text-sm'>
         {Object.entries(tags).map(([key, value]) => {
           return (
             <li
