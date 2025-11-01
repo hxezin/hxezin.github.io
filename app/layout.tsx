@@ -20,7 +20,7 @@ export default function RootLayout({
       `;
 
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang='ko' suppressHydrationWarning>
       <body suppressHydrationWarning>
         <AnalyticsProvider>
           <div className='wrapper h-auto min-h-full pb-28 max-w-4xl mx-auto px-4'>
