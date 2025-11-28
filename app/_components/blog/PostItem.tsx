@@ -14,11 +14,11 @@ function PostItem({ post }: Props) {
   return (
     <li>
       <Link href={linkPath} className='group'>
-        <h3 className='font-bold w-fit group-hover:shadow-[inset_0_-12px_0] group-hover:shadow-indigo-200 dark:group-hover:shadow-indigo-700 transition-color duration-200'>
+        <h3 className='w-fit font-bold transition-all duration-300 ease-in-out group-hover:shadow-[inset_0_-12px_0] group-hover:shadow-indigo-200 dark:group-hover:shadow-indigo-500'>
           {title}
         </h3>
-        <p className='leading-6 line-clamp-2 text-neutral-500 text-sm my-2'>{description}</p>
-        <div className='flex items-center text-neutral-400 text-sm'>
+        <p className='my-2 line-clamp-2 text-sm leading-6 text-neutral-500'>{description}</p>
+        <div className='flex items-center text-sm text-neutral-400'>
           <time className='flex items-center gap-1'>
             <AiOutlineCalendar className='text-base' /> {formattedDate(date)}
           </time>
