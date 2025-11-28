@@ -61,18 +61,20 @@ function FilteredPosts({ posts }: Props) {
   return (
     <>
       <div>
-        <div className='flex flex-col justify-center items-center'>
-          <span className='text-5xl font-semibold mb-2'>{decodedCategory}</span>
+        <div className='flex flex-col items-center justify-center'>
+          <span className='mb-2 text-5xl font-semibold'>{decodedCategory}</span>
           <span className='font-medium'>{categorizedPosts.length} posts</span>
         </div>
         <Category currentCategory={currentCategory} onClick={handleCategoryClick} />
       </div>
-      <div className='relative'>
-        <div className='mx-auto max-w-4xl'>
+      <div className='relative flex justify-center gap-10'>
+        <div className='mx-auto max-w-4xl flex-1'>
           <PostsGrid posts={categorizedPosts} />
         </div>
-        <div className='hidden xl:block fixed right-[max(1rem,calc((100%-896px)/2-208px-2.5rem))] top-80 w-52'>
-          <Tags tags={tags} isSelected={isSelected} onClick={handleTagClick} />
+        <div className='hidden w-52 shrink-0 xl:block'>
+          <div className='sticky top-24'>
+            <Tags tags={tags} isSelected={isSelected} onClick={handleTagClick} />
+          </div>
         </div>
       </div>
     </>
