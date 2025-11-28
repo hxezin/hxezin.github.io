@@ -7,15 +7,15 @@ interface Props {
 
 function Category({ currentCategory, onClick }: Props) {
   return (
-    <ul className='flex gap-3 justify-center items-center py-8'>
+    <ul className='flex items-center justify-center gap-3 py-8'>
       {CATEGORY.map((category) => {
-        let isActive = category === currentCategory;
+        const isActive = category === currentCategory;
 
         return (
           <li
             key={category}
-            className={`px-2 py-0.5 rounded hover:bg-secondary cursor-pointer transition-color duration-300 ${
-              isActive ? 'text-primary font-semibold' : 'text-secondary'
+            className={`transition-color cursor-pointer rounded px-2 py-0.5 duration-300 hover:bg-secondary ${
+              isActive ? 'font-semibold text-primary' : 'text-secondary'
             }`}
             onClick={() => onClick(category)}
           >
