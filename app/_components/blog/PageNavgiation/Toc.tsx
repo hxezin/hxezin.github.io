@@ -35,8 +35,8 @@ function Toc() {
 
   return (
     <>
-      <div className='text-primary mb-1 mt-10 text-sm font-medium'>On this page</div>
-      <ul className='space-y-2.5 overflow-y-auto py-2 text-sm max-h-[70vh]'>
+      <div className='mb-1 mt-10 text-sm font-medium text-primary'>On this page</div>
+      <ul className='max-h-[70vh] space-y-2.5 overflow-y-auto py-2 text-sm'>
         {headingEls.map((heading, idx) => (
           <li key={idx} data-depth={heading.nodeName === 'H2' ? '1' : '2'}>
             <a
@@ -47,7 +47,16 @@ function Toc() {
               onClick={(e) => {
                 e.preventDefault();
                 const element = document.getElementById(heading.id);
-                element?.scrollIntoView({ behavior: 'smooth' });
+                if (element) {
+                  const headerOffset = 80; // 헤더 높이 64px + 여유 16px
+                  const elementPosition = element.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                  window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth',
+                  });
+                }
               }}
             >
               {heading.textContent}

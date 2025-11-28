@@ -19,11 +19,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='ko' suppressHydrationWarning>
       <body suppressHydrationWarning>
         <AnalyticsProvider>
-          <div className='wrapper h-auto min-h-full pb-28 max-w-4xl mx-auto px-4'>
+          <div className='flex min-h-screen flex-col'>
             <Header />
-            <main className='py-16'>{children}</main>
+            <div className='wrapper mx-auto w-full max-w-4xl flex-1 px-4'>
+              <main className='py-16'>{children}</main>
+            </div>
+            <Footer />
           </div>
-          <Footer />
         </AnalyticsProvider>
         <script dangerouslySetInnerHTML={{ __html: setTheme }} />
       </body>
